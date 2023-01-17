@@ -1,0 +1,25 @@
+// @use "@angular/material" as mat;
+@import '~@angular/material/theming';
+// @import '@angular/material/theming';
+// @import 'paleta.scss';
+
+
+
+/* ======== Angular material custom themes ======== */ 
+
+$paleta1: $mat-brown-palette;
+$paleta2: $mat-lime-palette;
+$paleta3: $mat-orange-palette;
+
+
+$my-custom-primary: mat-palette($paleta1);
+$my-custom-accent: mat-palette($paleta2);
+$my-custom-warn: mat-palette($paleta3);
+$my-custom-theme1: mat-light-theme($my-custom-primary, $my-custom-accent, $my-custom-warn);
+
+.theme1 {
+    @include angular-material-theme($my-custom-theme1);
+}
+
+// @include angular-material-theme($my-custom-theme1);
+// @include all-components-themes($my-custom-theme);

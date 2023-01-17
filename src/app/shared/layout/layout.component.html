@@ -1,4 +1,4 @@
-<div class="navbar-container" [class.example-is-mobile]="mobileQuery.matches">
+<div class="navbar-container" [class.example-is-mobile]="mobileQuery.matches" [ngClass]="temaSeleccionado">
 
   <!-- Top navbar -->
   <mat-toolbar class="navbar" color="primary">
@@ -53,7 +53,7 @@
 
   </mat-toolbar>
 
-  <mat-sidenav-container class="navbar-sidenav-container">
+  <mat-sidenav-container class="navbar-sidenav-container" >
     <!-- Side nav -->
     <mat-sidenav #snav [opened]="!mobileQuery.matches" [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="mobileQuery.matches" fixedTopGap="56" class="sidenav">
@@ -66,6 +66,13 @@
             dashboard
           </mat-icon>
           <p mat-line> Dashboard </p>
+        </a>
+
+        <a mat-list-item [routerLink]="['/demo']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            dashboard
+          </mat-icon>
+          <p mat-line> Demo </p>
         </a>
 
         <a mat-list-item [routerLink]="['/customers']" routerLinkActive="active">
@@ -92,7 +99,16 @@
         </a>
 
         <mat-divider></mat-divider>
-
+        <h3 mat-subheader>Temas</h3>        
+        <ng-container *ngFor="let tema of ['theme1','theme2']">
+          <a mat-list-item  (click)="changeTheme(tema)"> 
+            <mat-icon mat-list-icon>
+              toll
+            </mat-icon>
+            <p mat-line> {{tema}} </p>  
+          </a>
+        </ng-container>          
+        <mat-divider></mat-divider>
         <h3 mat-subheader>Resources</h3>
 
         <a mat-list-item [routerLink]="['/icons']" routerLinkActive="active">
@@ -133,8 +149,6 @@
         </mat-progress-bar>
         <!-- <mat-spinner class="spinner" [diameter]="50" *ngIf="showSpinner"></mat-spinner> -->
       </div>
-
-
       <router-outlet></router-outlet>
 
     </mat-sidenav-content>
