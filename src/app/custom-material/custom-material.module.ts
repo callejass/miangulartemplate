@@ -48,9 +48,20 @@ export const MY_FORMATS = {
   }
 };
 
+// para importar y exportar todo a la vez
+// const materialModules = [MatMomentDateModule,
+//   MatSidenavModule, MatIconModule, MatToolbarModule, MatButtonModule,
+//   MatListModule, MatCardModule, MatProgressBarModule, MatInputModule,
+//   MatSnackBarModule, MatProgressSpinnerModule, MatDatepickerModule,
+//   MatAutocompleteModule, MatTableModule, MatDialogModule, MatTabsModule,
+//   MatTooltipModule, MatSelectModule, MatPaginatorModule, MatChipsModule,
+//   MatButtonToggleModule, MatSlideToggleModule, MatBadgeModule, MatCheckboxModule,
+//   MatExpansionModule, DragDropModule, MatSortModule];
+
+
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule,    
     MatMomentDateModule,
     MatSidenavModule, MatIconModule, MatToolbarModule, MatButtonModule,
     MatListModule, MatCardModule, MatProgressBarModule, MatInputModule,
@@ -61,7 +72,7 @@ export const MY_FORMATS = {
     MatExpansionModule, DragDropModule, MatSortModule
   ],
   exports: [
-    CommonModule,
+    CommonModule,        
     MatSidenavModule, MatIconModule, MatToolbarModule, MatButtonModule,
     MatListModule, MatCardModule, MatProgressBarModule, MatInputModule,
     MatSnackBarModule, MatMenuModule, MatProgressSpinnerModule, MatDatepickerModule,
