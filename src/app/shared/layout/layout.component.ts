@@ -20,6 +20,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     userName: string = "";
     isAdmin: boolean = false;
 
+    temaSeleccionado = 'theme1';
     private autoLogoutSubscription: Subscription = new Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,
@@ -55,5 +56,9 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.changeDetectorRef.detectChanges();
+    }
+
+    changeTheme(tema: string): void {
+        this.temaSeleccionado=tema;
     }
 }

@@ -14,6 +14,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'demo',
+    loadChildren: () => import('./features/demo/demo.module').then(m => m.DemoModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'customers',
     loadChildren: () => import('./features/customers/customers.module').then(m => m.CustomersModule),
     canActivate: [AuthGuard]

@@ -1,4 +1,20 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+@use "@angular/material" as mat;
+// @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@use './estilos/temas/tema1/theme1.scss';
+@use './estilos/temas/tema2/theme2.scss';
+
+// @include mat.core();
+
+
+// @import './estilos/temas/tema2/theme.scss';
+
+
+// @include mat.core-theme($my-custom-theme1);
+
 
 body {
   margin: 0;
