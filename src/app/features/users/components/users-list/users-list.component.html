@@ -1,0 +1,30 @@
+<p>users-list works!</p>
+
+<mat-list>
+  <mat-list-item *ngFor="let user of usersList">
+    <mat-icon mat-list-avatar>person</mat-icon>
+    <h3 matLine>{{user.id}}: {{ user.nombre }}</h3>
+    <p matLine>
+      <span>Email: {{ user.email }}</span>
+      
+    </p>
+    <p matLine>
+      <span>Roles:</span>
+      <span *ngFor="let role of user.roles; let last = last">
+        {{ role }}<span *ngIf="!last">, </span>
+      </span>
+    </p>
+    <button mat-icon-button [routerLink]="['/users/detail', user.id, {mode:'vista'}]" routerLinkActive="router-link-active" >
+      <mat-icon>visibility</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon [routerLink]="['/users/detail',user.id, {mode:'edicion'}]">edit</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>delete</mat-icon>
+    </button>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>
+
+
