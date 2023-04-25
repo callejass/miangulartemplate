@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsersEndpointService } from './users-endpoint.service';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,17 @@ export class UsersService {
   /**
    * Este método devuelve la lista de usuarios
    */
-  getAll(): Observable<any[]>{
+  getAll(): Observable<User[]>{
     return this.endpoint.getAll();
   }
-
-  get(id: string): Observable<any>{
-    throw new Error('No implementado todavía');
+  /**
+   * Este método devuelve un usuario
+   * @param id 
+   * @returns 
+   */
+  get(id: string): Observable<User>{
+    
+    return this.endpoint.get(id);
   }
 
 

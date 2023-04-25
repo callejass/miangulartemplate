@@ -10,5 +10,6 @@ export abstract class UsersEndpointService {
 
 
   abstract getAll(): Observable<any[]>;
+  abstract get(id:string):Observable<any>;
 
 }
