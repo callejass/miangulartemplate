@@ -1,25 +1,40 @@
 <p>detail works!</p>
-<div>
+<div class="container">
   <mat-card class="tarjeta">
+    <mat-card-header>
+      <mat-card-title>{{ mode === 'vista' ? 'Detalles del usuario' : (mode==='edicion'? 'Editar usuario' : 'Nuevo Usuario' )}}</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
-      <form [formGroup]="userForm">
-        <mat-form-field appearance="fill">
-          <mat-label>Id de Usuario</mat-label>
-          <input matInput placeholder="Id" formControlName="id">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Nombre</mat-label>
-          <input matInput placeholder="Nombre" formControlName="nombre">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Email</mat-label>
-          <input matInput placeholder="Email" formControlName="email">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Fecha de nacimiento</mat-label>
-          <input matInput placeholder="Fecha" formControlName="fechaNacimiento">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div fxLayout="row" fxLayoutGap="16px">
+          <mat-form-field appearance="outline" fxFlex>
+            <mat-label>Id de Usuario</mat-label>
+            <input matInput placeholder="Id" formControlName="id">
+            <mat-error *ngIf="userForm.get('id')?.touched && userForm.get('id')?.hasError('required')">
+              Este campo es obligatorio
+            </mat-error>
+            
+          </mat-form-field>
+          <mat-form-field appearance="outline" fxFlex>
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre" formControlName="nombre">
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <mat-form-field appearance="outline" fxFlex>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email">
+          </mat-form-field>
+          <mat-form-field appearance="outline" fxFlex>
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" placeholder="Fecha" formControlName="fechaNacimiento">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
           <mat-label>Provincia</mat-label>
           <input matInput placeholder="Provincia" formControlName="provincia">
         </mat-form-field>
@@ -27,8 +42,24 @@
         <div formArrayName="roles">
           <mat-label>Roles</mat-label>
           <div *ngFor="let roleControl of roles.controls; let i = index">
-            <input matInput [formControlName]="i" placeholder="roles">
+            <mat-form-field appearance="outline">
+              <input matInput [formControlName]="i" placeholder="Role {{i + 1}}">
+              <mat-error *ngIf="roleControl.invalid">Este campo es obligatorio</mat-error>
+              <mat-icon matSuffix (click)="removeRole(i)" [style.cursor]="'pointer'" [style.color]="mode==='vista' ? 'rgba(0,0,0,0.38)' : 'red'" [style.pointer-events]="mode==='vista' ? 'none' : 'auto'">delete</mat-icon>
+            </mat-form-field>
           </div>
+          <button mat-icon-button color="primary" (click)="addRole()" [disabled]="mode==='vista'">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <div class="actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid || !editMode" class="action-button">
+            Guardar Cambios
+          </button>
+          <button mat-raised-button color="primary"  [routerLink]="['/users']">
+            Volver
+          </button>
         </div>
       </form>
     </mat-card-content>
@@ -40,5 +71,4 @@
 
 
 
-
-  <pre>{{user| json}}</pre>
+<pre>{{userForm.value| json}}</pre>

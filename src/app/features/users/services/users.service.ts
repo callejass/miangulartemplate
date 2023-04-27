@@ -26,6 +26,13 @@ export class UsersService {
     
     return this.endpoint.get(id);
   }
-
-
+  delete(id:string):Observable<User[]>{
+    return this.endpoint.delete(id)
+  }
+  update(user:User):Observable<User>{
+    return this.endpoint.update(user);
+  }
+  create(user:User):Observable<User>{
+    return this.endpoint.create(user)
+  }
 }
