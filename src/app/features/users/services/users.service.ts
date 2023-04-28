@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { UsersEndpointService } from './users-endpoint.service';
 import { User } from '../models/user.model';
 
@@ -26,8 +26,12 @@ export class UsersService {
     
     return this.endpoint.get(id);
   }
-  delete(id:string):Observable<User[]>{
-    return this.endpoint.delete(id)
+  delete(id:string):Observable<{ok: boolean, message: string, data: any}>{
+    return this.endpoint.delete(id).pipe(
+      map(() => {
+        return {ok: true, message: 'Hola', data:null}
+      })
+    )
   }
   update(user:User):Observable<User>{
     return this.endpoint.update(user);
