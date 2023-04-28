@@ -1,42 +1,44 @@
 <p>users-list works!</p>
 <div class="container">
-  <button mat-raised-button color="primary" [routerLink]="['/users/detail','nuevo',{mode:'crear'}]"
+  <button mat-raised-button color="primary" [routerLink]="['/users/detail', 'nuevo', { mode: 'crear' }]"
     class="create-user-button">
     Crear nuevo usuario
   </button>
 
-
   <mat-card class="tarjeta">
-
-
-
-
-    <mat-list>
-      <mat-list-item *ngFor="let user of usersList">
-        <mat-icon mat-list-avatar>person</mat-icon>
-        <h3 matLine>{{user.id}}: {{ user.nombre }}</h3>
-        <p matLine>
-          <span>Email: {{ user.email }}</span>
-
-        </p>
-        <p matLine>
-          <span>Roles:</span>
-          <span *ngFor="let role of user.roles; let last = last">
-            {{ role }}<span *ngIf="!last">, </span>
-          </span>
-        </p>
-        <button mat-icon-button [routerLink]="['/users/detail', user.id, {mode:'vista'}]"
-          routerLinkActive="router-link-active">
-          <mat-icon>visibility</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon [routerLink]="['/users/detail',user.id, {mode:'edicion'}]">edit</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon (click)="delete(user.id)">delete</mat-icon>
-        </button>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-    </mat-list>
+    <mat-card-title>Listado de Usuarios</mat-card-title>
+    <mat-card-content>
+      <mat-list>
+        <ng-container *ngFor="let user of usersList">
+          <mat-list-item>
+            <mat-icon mat-list-avatar>person</mat-icon>
+            <div class="user-info">
+              <h3 matLine>Id:{{user.id}}</h3>
+              <h2 matLine>Nombre: {{ user.nombre }}</h2>
+              <p matLine>Email: {{ user.email }}</p>
+              <p matLine>
+                <span>Roles: </span>
+                <span *ngFor="let role of user.roles; let last = last">
+                  {{ role }}<span *ngIf="!last">, </span>
+                </span>
+              </p>
+            </div>
+            <div class="action-buttons">
+              <button mat-icon-button [routerLink]="['/users/detail', user.id, { mode: 'vista' }]"
+                routerLinkActive="router-link-active">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button [routerLink]="['/users/detail', user.id, { mode: 'edicion' }]">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="delete(user.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </ng-container>
+      </mat-list>
+    </mat-card-content>
   </mat-card>
 </div>

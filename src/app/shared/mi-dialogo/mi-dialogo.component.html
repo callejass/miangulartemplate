@@ -1,0 +1,8 @@
+<p>mi-dialogo works!</p>
+<h2 mat-dialog-title>{{ data.titulo }}</h2>
+<mat-dialog-content>{{ data.mensaje}}</mat-dialog-content>
+<mat-dialog-content>{{ data.submensaje}}</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="alDescartar()">Cancelar</button>
+  <button mat-raised-button [ngClass]="{'mi-boton-personalizado': true}" (click)="alConfirmar()">Eliminar</button>
+</mat-dialog-actions>

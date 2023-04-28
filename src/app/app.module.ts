@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { UsersService } from './features/users/services/users.service';
 import { UsersEndpointService } from './features/users/services/users-endpoint.service';
 import { UsersMockService } from './features/users/services/users-mock.service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { UsersMockService } from './features/users/services/users-mock.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    
     CoreModule,
     SharedModule,
     CustomMaterialModule.forRoot(),

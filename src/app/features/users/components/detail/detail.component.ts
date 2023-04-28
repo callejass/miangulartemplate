@@ -11,6 +11,8 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmDialogComponent, ConfirmDialogModel } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 @Component({
   selector: "app-detail",
   templateUrl: "./detail.component.html",
@@ -33,7 +35,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private usersService: UsersService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog:MatDialog
   ) {
     this.userForm = this.createUserForm();
   }
@@ -145,8 +148,15 @@ export class DetailComponent implements OnInit, OnDestroy {
    * @param {number} index - Índice del rol que se eliminará.
    */
   removeRole(index: number): void {
-    const roles = this.userForm.get("roles") as FormArray;
-    roles.removeAt(index);
+    const dialogData=new ConfirmDialogModel('Eliminar rol', '¿Seguro?', `rol numero${index+1}`);
+    const dialogRef=this.dialog.open(ConfirmDialogComponent,{panelClass:'mi-dialogo-personalizado', data:dialogData});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        
+        const roles = this.userForm.get("roles") as FormArray;
+        roles.removeAt(index);
+    }});
+    
   }
 
   onSubmit() {
