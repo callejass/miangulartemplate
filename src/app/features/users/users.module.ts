@@ -12,12 +12,14 @@ import { UsersMockService } from './services/users-mock.service';
 import { DetailComponent } from './components/detail/detail.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+    MatTableModule
   ],
   declarations: [UserListComponent, HomePageComponent, DetailPageComponent, UsersListComponent,DetailComponent],
   

@@ -30,6 +30,12 @@
       align-items: center;
     } 
     
+    .mat-cell {
+      padding-left: 16px;
+      padding-right: 16px;
+    }  
     
-    
-    
+    .mat-header-cell {
+      padding-left: 16px;
+      padding-right: 16px;
+    }

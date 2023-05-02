@@ -11,6 +11,7 @@ import { filter, switchMap, tap } from 'rxjs';
   styleUrls: ['./users-list.component.css'],
 })
 export class UsersListComponent implements OnInit {
+  displayedColumns:string[]=['id', 'nombre','email', 'roles', 'acciones'];
   usersList: User[] = [];
   constructor(
     private gui: GuiUtilsService,
