@@ -13,6 +13,10 @@ import {
 } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmDialogComponent, ConfirmDialogModel } from "src/app/shared/confirm-dialog/confirm-dialog.component";
+import { formatDate } from '@angular/common';
+import { parse } from 'date-fns'; 
+
+
 @Component({
   selector: "app-detail",
   templateUrl: "./detail.component.html",
