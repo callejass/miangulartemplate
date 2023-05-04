@@ -2,20 +2,30 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { UsersEndpointService } from './users-endpoint.service';
 import { User } from '../models/user.model';
+import { GuiUtilsService } from 'src/app/core/services/gui-utils.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  constructor(private endpoint: UsersEndpointService) { }
+  constructor(private endpoint: UsersEndpointService,
+    private utilidades:GuiUtilsService) { }
 
 
   /**
    * Este método devuelve la lista de usuarios
    */
   getAll(): Observable<User[]>{
-    return this.endpoint.getAll();
+    return this.endpoint.getAll().pipe(
+      map(users=>{
+        return users.map(user=>{
+          const fechaFormateada=this.utilidades.fechasFormat(user.fechaNacimiento);
+          return{...user,fechaNacimiento:fechaFormateada}
+        })
+
+      })
+    );
   }
   /**
    * Este método devuelve un usuario

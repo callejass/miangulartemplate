@@ -6,6 +6,7 @@ import { Optional } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Inject, Injectable } from '@angular/core';
 import { filter, map, Observable, of } from 'rxjs';
+import {format} from 'date-fns';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { MiDialogoComponent } from 'src/app/shared/mi-dialogo/mi-dialogo.component';
@@ -125,4 +126,9 @@ export class GuiUtilsService {
    * @param tipo Tipo del mensaje (error, warning, success o info)
    */
   private throwMessage(mensaje: string, tipo: string): void {}
+
+  public fechasFormat(fecha:string, miFormato:string= 'dd/MM/yyyy'):string{
+    const parsedDate=new Date(fecha);
+    return format(parsedDate,miFormato);
+  }
 }
