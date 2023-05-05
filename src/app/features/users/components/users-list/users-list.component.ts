@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
-import { User } from '../../models/user.model';
+import { Rol, User } from '../../models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { MiDialogoComponent } from 'src/app/shared/mi-dialogo/mi-dialogo.component';
 import { GuiUtilsService } from 'src/app/core/services/gui-utils.service';
 import { filter, switchMap, tap } from 'rxjs';
+import { TablasMaestrasService } from 'src/app/core/services/tablas-maestras.service';
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
@@ -13,12 +14,24 @@ import { filter, switchMap, tap } from 'rxjs';
 export class UsersListComponent implements OnInit {
   displayedColumns:string[]=['id', 'nombre','email', 'roles', 'acciones'];
   usersList: User[] = [];
+  listaRoles:Rol[]=[]
   constructor(
     private gui: GuiUtilsService,
-    private usersService: UsersService, private dialogo:MatDialog ) {}
+    private usersService: UsersService, private dialogo:MatDialog,
+    private tablasMaestras:TablasMaestrasService
+    ) {}
   ngOnInit(): void {
     this.getLista();
+    this.listaRoles=this.tablasMaestras.getRoles();
   }
+  
+  getNombreRoles(codigosRoles: string[]): string[] {
+    return codigosRoles.map(codigo => {
+      const rol = this.listaRoles.find(r => r.codigo === codigo);
+      return rol ? rol.nombre : "";
+    });
+  }
+  
   
   getLista(): void {
     this.usersService.getAll().subscribe({

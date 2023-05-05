@@ -7,3 +7,11 @@ export interface User{
     roles:string[];
     
 }
+export interface Provincia{
+    codigo:string;
+    nombre:string;
+}
+export interface Rol {
+    codigo: string;
+    nombre: string;
+}

@@ -2,10 +2,10 @@
 
 @use "@angular/material" as mat;
 // @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
-// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-@use './estilos/temas/tema1/theme1.scss';
-@use './estilos/temas/tema2/theme2.scss';
+// @use './estilos/temas/tema1/theme1.scss';
+// @use './estilos/temas/tema2/theme2.scss';
 
 // @include mat.core();
 
@@ -162,8 +162,8 @@ p .mat-icon {
     opacity: 1;
   }
 }
-.mi-dialogo-personalizado .mat-dialog-container {
-  background-color: #f5efef; 
+// .mi-dialogo-personalizado .mat-dialog-container {
+//   background-color: #f5efef; 
   
   /* Cambia este valor al color que prefieras */
-}
+

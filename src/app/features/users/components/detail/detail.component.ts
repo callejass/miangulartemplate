@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router";
-import { User } from "../../models/user.model";
+import { Provincia, Rol, User } from "../../models/user.model";
 import { UsersService } from "../../services/users.service";
 import { Subscription } from "rxjs";
 import {
@@ -15,6 +15,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ConfirmDialogComponent, ConfirmDialogModel } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { formatDate } from '@angular/common';
 import { parse } from 'date-fns'; 
+import { ROLES, TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
 
 
 @Component({
@@ -23,6 +24,8 @@ import { parse } from 'date-fns';
   styleUrls: ["./detail.component.css"],
 })
 export class DetailComponent implements OnInit, OnDestroy {
+  listaRoles:Rol[]=[];
+  listaProvincias:Provincia[]=[]
   mode: string | null | undefined;
   user: User = {
     id: "",
@@ -37,6 +40,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   paramMapSubscription: Subscription = new Subscription();
   editMode: boolean = false;
   constructor(
+    private tablasMaestras:TablasMaestrasService,
     private route: ActivatedRoute,
     private usersService: UsersService,
     private fb: FormBuilder,
@@ -46,6 +50,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.listaRoles=this.tablasMaestras.getRoles();
+    this.listaProvincias=this.tablasMaestras.getProvincias();
     this.getParams();
     if (this.mode === "edicion" || this.mode === "vista") {
       this.getUserData(this.userId);
@@ -70,7 +76,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       email: ["", [Validators.required, Validators.email]],
       fechaNacimiento: ["", Validators.required],
       provincia: ["", Validators.required],
-      roles: this.fb.array([this.fb.control("", Validators.required)]),
+      roles: [[], Validators.required]
     });
   }
 
@@ -101,6 +107,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.usersService.get(userId).subscribe({
       next: (user: User) => {
         this.user = user;
+        
       },
     });
   }
@@ -113,55 +120,20 @@ export class DetailComponent implements OnInit, OnDestroy {
    * @param {User} user - El usuario del que consigo los datos para el formulario.
    */
   setUserData(user: User): void {
+    const provincia=this.listaProvincias.find((provincia)=>provincia.codigo===user.provincia);
     this.userForm.patchValue({
       id: user.id,
       nombre: user.nombre,
       email: user.email,
       fechaNacimiento: user.fechaNacimiento,
-      provincia: user.provincia,
+      provincia: provincia? provincia.codigo: "",
+      roles:user.roles
     });
 
-    const rolesArray = this.fb.array(
-      user.roles.map((role) => this.fb.control(role, Validators.required))
-    );
-    this.userForm.setControl("roles", rolesArray);
-  }
-
-  /**
-   * Obtiene el FormArray de roles del formulario `userForm`.
-   *
-   * @returns {FormArray} El FormArray de roles asociado al formulario.
-   */
-  get roles(): FormArray {
-    return this.userForm.get("roles") as FormArray;
-  }
-
-  /**
-   * Añade un nuevo control de formulario vacío al FormArray de roles
-   * en el formulario `userForm`
-   */
-  addRole(): void {
-    const roles = this.userForm.get("roles") as FormArray;
-    roles.push(this.fb.control("", Validators.required));
-  }
-
-  /**
-   * Elimina un rol en el FormArray del formulario `userForm`
-   * en la posición especificada por el index
-   *
-   * @param {number} index - Índice del rol que se eliminará.
-   */
-  removeRole(index: number): void {
-    const dialogData=new ConfirmDialogModel('Eliminar rol', '¿Seguro?', `rol numero${index+1}`);
-    const dialogRef=this.dialog.open(ConfirmDialogComponent,{panelClass:'mi-dialogo-personalizado', data:dialogData});
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        
-        const roles = this.userForm.get("roles") as FormArray;
-        roles.removeAt(index);
-    }});
     
   }
+
+  
 
 
 
