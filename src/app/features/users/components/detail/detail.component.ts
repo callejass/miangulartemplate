@@ -15,7 +15,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ConfirmDialogComponent, ConfirmDialogModel } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { formatDate } from '@angular/common';
 import { parse } from 'date-fns'; 
-import { ROLES, TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
+import {  TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
 import { FechasService } from "src/app/core/services/fechas.service";
 
 
@@ -52,8 +52,16 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.listaRoles=this.tablasMaestras.getRoles();
-    this.listaProvincias=this.tablasMaestras.getProvincias();
+
+
+    
+    this.tablasMaestras.getData<Provincia>('provincias').subscribe
+    ((provincias)=>{
+      this.listaProvincias=provincias
+    })
+    this.tablasMaestras.getData<Rol>('roles').subscribe((roles)=>{
+      this.listaRoles=roles;
+    })
     this.getParams();
     if (this.mode === "edicion" || this.mode === "vista") {
       this.getUserData(this.userId);
@@ -110,6 +118,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       next: (user: User) => {
         this.user = user;
         
+        
       },
     });
   }
@@ -127,28 +136,33 @@ export class DetailComponent implements OnInit, OnDestroy {
       id: user.id,
       nombre: user.nombre,
       email: user.email,
+      provincia: user.provincia,
+      roles:user.roles,
       fechaNacimiento: user.fechaNacimiento,
-      provincia: provincia? provincia.codigo: "",
-      roles:user.roles
     });
 
     
   }
 
-  
+  printProvinciaAndRoles(): void {
+    console.log('Provincia:', this.userForm.get('provincia')?.value);
+    console.log('Roles:', this.userForm.get('roles')?.value);
+  }
 
 
 
 
   onSubmit() {
+    
     const updatedUser = this.userForm.value;
 
     this.user.id = updatedUser.id;
     this.user.nombre = this.userForm.value.nombre;
     this.user.email = updatedUser.email;
-    this.user.fechaNacimiento = this.fechas.convertirAString(updatedUser.fechaNacimiento)
+    this.user.fechaNacimiento=updatedUser.fechaNacimiento;
     this.user.provincia = updatedUser.provincia;
     this.user.roles = updatedUser.roles;
+    console.log(this.userForm.value)
     if (this.mode === "edicion") {
       this.usersService.update(this.user);
     } else {

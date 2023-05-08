@@ -39,11 +39,14 @@ UserList:User[]=USERS;
     return of(this.UserList)
   }
   update(user:User):Observable<User>{
+    console.log('Actualizando usuario en mockSErvice');
     const index=this.UserList.findIndex((u)=>u.id===user.id);
     if (index!== -1){
       this.UserList[index]=user;
-      console.log(index);
+      console.log('Usuario actualizado<.', this.UserList[index]);
       console.log(user.id)
+    } else{
+      console.log('No se encontró el usuario para actualizar'); 
     }
     return of(user)
   }

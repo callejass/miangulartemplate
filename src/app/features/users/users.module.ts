@@ -14,7 +14,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { CustomDateAdapter } from './adaptadorFechapersonalizado';
 
 export const CUSTOM_DATE_FORMATS = {

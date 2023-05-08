@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
-import { Rol, User } from '../../models/user.model';
+import { Rol,Provincia ,User } from '../../models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { MiDialogoComponent } from 'src/app/shared/mi-dialogo/mi-dialogo.component';
 import { GuiUtilsService } from 'src/app/core/services/gui-utils.service';
@@ -14,7 +14,8 @@ import { TablasMaestrasService } from 'src/app/core/services/tablas-maestras.ser
 export class UsersListComponent implements OnInit {
   displayedColumns:string[]=['id', 'nombre','email', 'roles', 'acciones'];
   usersList: User[] = [];
-  listaRoles:Rol[]=[]
+  listaRoles:Rol[]=[];
+  listaProvincias:Provincia[]=[]
   constructor(
     private gui: GuiUtilsService,
     private usersService: UsersService, private dialogo:MatDialog,
@@ -22,7 +23,14 @@ export class UsersListComponent implements OnInit {
     ) {}
   ngOnInit(): void {
     this.getLista();
-    this.listaRoles=this.tablasMaestras.getRoles();
+    this.tablasMaestras.getData<Rol>('roles').subscribe((roles)=>{
+      this.listaRoles=roles;
+      console.log(this.listaRoles)
+    });
+    this.tablasMaestras.getData<Provincia>('provincias').subscribe((provincia)=>{
+      this.listaProvincias=provincia;
+      console.log(this.listaProvincias)
+    })
   }
   
   getNombreRoles(codigosRoles: string[]): string[] {

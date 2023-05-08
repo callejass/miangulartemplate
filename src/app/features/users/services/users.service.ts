@@ -37,6 +37,7 @@ export class UsersService {
     )
   }
   update(user:User):Observable<User>{
+    console.log('Actualizando usuario:' , user)
     return this.endpoint.update(user);
   }
   create(user:User):Observable<User>{
