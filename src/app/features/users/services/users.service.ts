@@ -17,15 +17,8 @@ export class UsersService {
    * Este método devuelve la lista de usuarios
    */
   getAll(): Observable<User[]>{
-    return this.endpoint.getAll().pipe(
-      map(users=>{
-        return users.map(user=>{
-          const fechaFormateada=this.utilidades.fechasFormat(user.fechaNacimiento);
-          return{...user,fechaNacimiento:fechaFormateada}
-        })
-
-      })
-    );
+    return this.endpoint.getAll();
+    
   }
   /**
    * Este método devuelve un usuario

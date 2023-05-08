@@ -127,8 +127,5 @@ export class GuiUtilsService {
    */
   private throwMessage(mensaje: string, tipo: string): void {}
 
-  public fechasFormat(fecha:string, miFormato:string= 'dd/MM/yyyy'):string{
-    const parsedDate=new Date(fecha);
-    return format(parsedDate,miFormato);
-  }
+  
 }

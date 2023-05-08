@@ -16,6 +16,7 @@ import { ConfirmDialogComponent, ConfirmDialogModel } from "src/app/shared/confi
 import { formatDate } from '@angular/common';
 import { parse } from 'date-fns'; 
 import { ROLES, TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
+import { FechasService } from "src/app/core/services/fechas.service";
 
 
 @Component({
@@ -44,7 +45,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private usersService: UsersService,
     private fb: FormBuilder,
-    private dialog:MatDialog
+    private dialog:MatDialog,
+    private fechas:FechasService,
   ) {
     this.userForm = this.createUserForm();
   }
@@ -144,7 +146,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.user.id = updatedUser.id;
     this.user.nombre = this.userForm.value.nombre;
     this.user.email = updatedUser.email;
-    this.user.fechaNacimiento = updatedUser.fechaNacimiento;
+    this.user.fechaNacimiento = this.fechas.convertirAString(updatedUser.fechaNacimiento)
     this.user.provincia = updatedUser.provincia;
     this.user.roles = updatedUser.roles;
     if (this.mode === "edicion") {

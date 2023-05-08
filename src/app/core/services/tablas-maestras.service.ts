@@ -1,4 +1,7 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+
+import { Observable, of } from "rxjs";
 import { Provincia, Rol } from "src/app/features/users/models/user.model";
 
 export const ROLES: Rol[] = [
@@ -63,15 +66,22 @@ const PROVINCIAS: Provincia[] = [
   { codigo: "50", nombre:"Zaragoza"}
 ]
 
+export type TABLA='PROVINCIAS'| 'ROLES'|'COMUNIDADES';
+
 @Injectable({
   providedIn: "root",
 })
 export class TablasMaestrasService {
-  constructor() {}
+  constructor(private http:HttpClient) {}
   getProvincias():Provincia[]{
-    return PROVINCIAS;
+    return  PROVINCIAS;
   }
   getRoles():Rol[]{
     return ROLES
   }
+  getData<T>(tabla:TABLA):Observable<T[]>{
+
+    return of([]);
+  }
+
 }
