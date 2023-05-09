@@ -12,12 +12,15 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { ConfirmDialogComponent, ConfirmDialogModel } from "src/app/shared/confirm-dialog/confirm-dialog.component";
-import { formatDate } from '@angular/common';
-import { parse } from 'date-fns'; 
-import {  TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel,
+} from "src/app/shared/confirm-dialog/confirm-dialog.component";
+import { formatDate } from "@angular/common";
+import { format, parse, set } from "date-fns";
+import { TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
 import { FechasService } from "src/app/core/services/fechas.service";
-
+import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 
 @Component({
   selector: "app-detail",
@@ -25,8 +28,8 @@ import { FechasService } from "src/app/core/services/fechas.service";
   styleUrls: ["./detail.component.css"],
 })
 export class DetailComponent implements OnInit, OnDestroy {
-  listaRoles:Rol[]=[];
-  listaProvincias:Provincia[]=[]
+  listaRoles: Rol[] = [];
+  listaProvincias: Provincia[] = [];
   mode: string | null | undefined;
   user: User = {
     id: "",
@@ -41,27 +44,25 @@ export class DetailComponent implements OnInit, OnDestroy {
   paramMapSubscription: Subscription = new Subscription();
   editMode: boolean = false;
   constructor(
-    private tablasMaestras:TablasMaestrasService,
+    private tablasMaestras: TablasMaestrasService,
     private route: ActivatedRoute,
     private usersService: UsersService,
     private fb: FormBuilder,
-    private dialog:MatDialog,
-    private fechas:FechasService,
+    private dialog: MatDialog,
+    private fechas: FechasService
   ) {
     this.userForm = this.createUserForm();
   }
 
   ngOnInit(): void {
-
-
-    
-    this.tablasMaestras.getData<Provincia>('provincias').subscribe
-    ((provincias)=>{
-      this.listaProvincias=provincias
-    })
-    this.tablasMaestras.getData<Rol>('roles').subscribe((roles)=>{
-      this.listaRoles=roles;
-    })
+    this.tablasMaestras
+      .getData<Provincia>("provincias")
+      .subscribe((provincias) => {
+        this.listaProvincias = provincias;
+      });
+    this.tablasMaestras.getData<Rol>("roles").subscribe((roles) => {
+      this.listaRoles = roles;
+    });
     this.getParams();
     if (this.mode === "edicion" || this.mode === "vista") {
       this.getUserData(this.userId);
@@ -86,7 +87,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       email: ["", [Validators.required, Validators.email]],
       fechaNacimiento: ["", Validators.required],
       provincia: ["", Validators.required],
-      roles: [[], Validators.required]
+      roles: [[], Validators.required],
     });
   }
 
@@ -117,8 +118,6 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.usersService.get(userId).subscribe({
       next: (user: User) => {
         this.user = user;
-        
-        
       },
     });
   }
@@ -131,44 +130,65 @@ export class DetailComponent implements OnInit, OnDestroy {
    * @param {User} user - El usuario del que consigo los datos para el formulario.
    */
   setUserData(user: User): void {
-    const provincia=this.listaProvincias.find((provincia)=>provincia.codigo===user.provincia);
+    const provincia = this.listaProvincias.find(
+      (provincia) => provincia.codigo === user.provincia
+    );
     this.userForm.patchValue({
       id: user.id,
       nombre: user.nombre,
       email: user.email,
-      provincia: user.provincia,
-      roles:user.roles,
       fechaNacimiento: user.fechaNacimiento,
+      provincia: user.provincia,
+      roles: user.roles,
     });
-
-    
+    console.log(this.userForm)
   }
-
-  printProvinciaAndRoles(): void {
-    console.log('Provincia:', this.userForm.get('provincia')?.value);
-    console.log('Roles:', this.userForm.get('roles')?.value);
-  }
-
-
-
-
   onSubmit() {
-    
     const updatedUser = this.userForm.value;
-
+  
+    // Convertir la fecha de nacimiento al formato deseado
+    if (updatedUser.fechaNacimiento) {
+      const formattedDate = format(updatedUser.fechaNacimiento, 'yyyy-MM-dd');
+      updatedUser.fechaNacimiento = formattedDate;
+    }
+  
     this.user.id = updatedUser.id;
     this.user.nombre = this.userForm.value.nombre;
     this.user.email = updatedUser.email;
-    this.user.fechaNacimiento=updatedUser.fechaNacimiento;
+    this.user.fechaNacimiento = updatedUser.fechaNacimiento;
     this.user.provincia = updatedUser.provincia;
     this.user.roles = updatedUser.roles;
-    console.log(this.userForm.value)
+    console.log(this.userForm.value);
+  
     if (this.mode === "edicion") {
       this.usersService.update(this.user);
     } else {
       this.usersService.create(this.user);
     }
   }
+  
+
+
+
+
+
+  // onSubmit() {
+  //   const updatedUser = this.userForm.value;
+  //   console.log(updatedUser.fechaNacimiento);
+  //   this.user.id = updatedUser.id;
+  //   this.user.nombre = this.userForm.value.nombre;
+  //   this.user.email = updatedUser.email;
+  //   const fechaNacimiento = parse(updatedUser.fechaNacimiento, 'dd/MM/yyyy', new Date());
+  //   this.user.fechaNacimiento =format(fechaNacimiento, 'yyyy/MM/dd');
+  //   this.user.provincia = updatedUser.provincia;
+  //   this.user.roles = updatedUser.roles;
+  //   console.log(this.userForm.value);
+  //   if (this.mode === "edicion") {
+  //     this.usersService.update(this.user);
+  //   } else {
+  //     this.usersService.create(this.user);
+  //   }
+  // }
 
   ngOnDestroy(): void {
     this.paramMapSubscription.unsubscribe();

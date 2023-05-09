@@ -38,10 +38,10 @@
           </mat-form-field>
           <mat-form-field appearance="outline" fxFlex>
             <mat-label>Fecha de nacimiento</mat-label>
-            <input matInput [matDatepicker]="picker" placeholder="Fecha" formControlName="fechaNacimiento">
+            <input matInput [matDatepicker]="picker" placeholder="Fecha" formControlName="fechaNacimiento" >
             <mat-hint>dd/MM/yyyy</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker #picker ></mat-datepicker>
             <mat-error
               *ngIf="userForm.get('fechaNacimiento')?.touched && userForm.get('fechaNacimiento')?.hasError('required')">
               Campo Obligatorio
@@ -91,7 +91,6 @@
     </mat-card-content>
   </mat-card>
 </div>
-<button mat-raised-button (click)="printProvinciaAndRoles()">Imprimir Provincia y Roles</button>
 
 
 
