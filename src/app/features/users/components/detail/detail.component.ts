@@ -141,54 +141,29 @@ export class DetailComponent implements OnInit, OnDestroy {
       provincia: user.provincia,
       roles: user.roles,
     });
-    console.log(this.userForm)
+    console.log(this.userForm);
   }
   onSubmit() {
     const updatedUser = this.userForm.value;
-  
-    // Convertir la fecha de nacimiento al formato deseado
-    if (updatedUser.fechaNacimiento) {
-      const formattedDate = format(updatedUser.fechaNacimiento, 'yyyy-MM-dd');
-      updatedUser.fechaNacimiento = formattedDate;
-    }
-  
+
     this.user.id = updatedUser.id;
     this.user.nombre = this.userForm.value.nombre;
     this.user.email = updatedUser.email;
-    this.user.fechaNacimiento = updatedUser.fechaNacimiento;
     this.user.provincia = updatedUser.provincia;
     this.user.roles = updatedUser.roles;
-    console.log(this.userForm.value);
-  
+    // Convertir la fecha de nacimiento al formato deseado
+    if (updatedUser.fechaNacimiento) {
+      const formattedDate = format(updatedUser.fechaNacimiento, "yyyy-MM-dd");
+      updatedUser.fechaNacimiento = formattedDate;
+      this.user.fechaNacimiento = updatedUser.fechaNacimiento;
+      console.log(this.userForm.value);
+    }
     if (this.mode === "edicion") {
       this.usersService.update(this.user);
     } else {
       this.usersService.create(this.user);
     }
   }
-  
-
-
-
-
-
-  // onSubmit() {
-  //   const updatedUser = this.userForm.value;
-  //   console.log(updatedUser.fechaNacimiento);
-  //   this.user.id = updatedUser.id;
-  //   this.user.nombre = this.userForm.value.nombre;
-  //   this.user.email = updatedUser.email;
-  //   const fechaNacimiento = parse(updatedUser.fechaNacimiento, 'dd/MM/yyyy', new Date());
-  //   this.user.fechaNacimiento =format(fechaNacimiento, 'yyyy/MM/dd');
-  //   this.user.provincia = updatedUser.provincia;
-  //   this.user.roles = updatedUser.roles;
-  //   console.log(this.userForm.value);
-  //   if (this.mode === "edicion") {
-  //     this.usersService.update(this.user);
-  //   } else {
-  //     this.usersService.create(this.user);
-  //   }
-  // }
 
   ngOnDestroy(): void {
     this.paramMapSubscription.unsubscribe();

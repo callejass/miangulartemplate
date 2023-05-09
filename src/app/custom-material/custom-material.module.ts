@@ -34,7 +34,22 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SelectCheckAllComponent } from './select-check-all/select-check-all.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { CustomDateAdapter } from '../features/users/adaptadorFechapersonalizado';
+
+export const CUSTOM_DATE_FORMATS = {
+  parse: {
+    dateInput: 'dd/MM/yyyy',
+  },
+  display: {
+    dateInput: 'dd/MM/yyyy',
+    monthYearLabel: 'MMM yyyy',
+    dateA11yLabel: 'dd/MM/yyyy',
+    monthYearA11yLabel: 'MMMM yyyy',
+  },
+};
+
+
 
 export const MY_FORMATS = {
   parse: {
@@ -82,11 +97,11 @@ export const MY_FORMATS = {
     MatExpansionModule, SelectCheckAllComponent, DragDropModule, MatSortModule
   ],
   providers: [
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: MY_FORMATS
-    },
-    { provide: LOCALE_ID, useValue: 'en-gb' }
+    
+    
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
+    { provide: LOCALE_ID, useValue: 'es' }
   ],
   declarations: [SelectCheckAllComponent]
 })

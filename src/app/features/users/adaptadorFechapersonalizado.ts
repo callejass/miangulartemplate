@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NativeDateAdapter } from '@angular/material/core';
 import { parse, format, isValid  } from 'date-fns';
-import {utcToZonedTime } from 'date-fns-tz'
-import parseISO from 'date-fns/parseISO';
 @Injectable() 
 export class CustomDateAdapter extends NativeDateAdapter {
   override parse(value: any): Date | null{
@@ -21,13 +19,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   override format(date: Date,displayFormat:string ): string {
     return format(date, 'dd/MM/yyyy');
   }
-  toModel(date: Date | null): string | null {
-    if (date) {
-      const fechaAjustada=utcToZonedTime(date, 'Etc/UTC')
-      return format(fechaAjustada, 'dd/MM/yyyy');
-    }
-    return null;
-  }
+  
 }
 
 
