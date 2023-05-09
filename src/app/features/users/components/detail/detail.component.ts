@@ -49,7 +49,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private fechas: FechasService
+    private fechasService: FechasService
   ) {
     this.userForm = this.createUserForm();
   }
@@ -153,8 +153,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.user.roles = updatedUser.roles;
     // Convertir la fecha de nacimiento al formato deseado
     if (updatedUser.fechaNacimiento) {
-      const formattedDate = format(updatedUser.fechaNacimiento, "yyyy-MM-dd");
-      updatedUser.fechaNacimiento = formattedDate;
+      
+      updatedUser.fechaNacimiento = this.fechasService.formateoDeFecha(updatedUser.fechaNacimiento)
       this.user.fechaNacimiento = updatedUser.fechaNacimiento;
       console.log(this.userForm.value);
     }
