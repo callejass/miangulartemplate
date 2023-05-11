@@ -66,15 +66,17 @@ export class DetailComponent implements OnInit, OnDestroy {
     });
     this.getParams();
     if (this.mode === "edicion" || this.mode === "vista") {
-      // this.userForm.get('id')?.disable()
       this.getUserData(this.userId);
       this.setUserData(this.user);
+      // Deshabilitar el campo 'id' si el modo es 'edicion'
+      if (this.mode === "edicion") {
+        this.userForm.get('id')?.disable();
+      }
+      if (this.mode === "vista") {
+        this.userForm.disable();
+      }
     }
-
-    if (this.mode === "vista") {
-      this.userForm.disable();
-    }
-    console.log(this.editMode);
+    
   }
   /**
    * Crea y devuelve un FormGroup para el formulario de usuario.
@@ -154,7 +156,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     console.log(this.userForm);
   }
   onSubmit() {
-    const updatedUser = this.userForm.value;
+    const updatedUser = this.userForm.getRawValue();
 
     this.user.id = updatedUser.id;
     this.user.nombre = this.userForm.value.nombre;
@@ -170,9 +172,11 @@ export class DetailComponent implements OnInit, OnDestroy {
     }
     if (this.mode === "edicion") {
       this.usersService.update(this.user);
+      console.log(this.userForm.value);
     } else {
       this.usersService.create(this.user);
     }
+    
   }
 
   ngOnDestroy(): void {

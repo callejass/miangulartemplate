@@ -10,7 +10,7 @@
         <div fxLayout="row" fxLayoutGap="16px">
           <mat-form-field appearance="fill" fxFlex>
             <mat-label>Id de Usuario</mat-label>
-            <input matInput placeholder="Id" formControlName="id">
+            <input matInput placeholder="Id" formControlName="id"  >
             <mat-error *ngIf="userForm.get('id')?.touched && userForm.get('id')?.hasError('required')">
               Campo Obligatorio
             </mat-error>
