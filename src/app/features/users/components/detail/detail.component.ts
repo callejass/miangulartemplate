@@ -156,6 +156,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     console.log(this.userForm);
   }
   onSubmit() {
+    
     const updatedUser = this.userForm.getRawValue();
 
     this.user.id = updatedUser.id;

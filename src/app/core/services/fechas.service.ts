@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 
 @Injectable({
   providedIn: "root",

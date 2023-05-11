@@ -1,97 +1,101 @@
-import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../../services/users.service';
-import { Rol,Provincia ,User } from '../../models/user.model';
-import { MatDialog } from '@angular/material/dialog';
-import { MiDialogoComponent } from 'src/app/shared/mi-dialogo/mi-dialogo.component';
-import { GuiUtilsService } from 'src/app/core/services/gui-utils.service';
-import { filter, switchMap, tap } from 'rxjs';
-import { TablasMaestrasService } from 'src/app/core/services/tablas-maestras.service';
+import { Component, OnInit } from "@angular/core";
+import { UsersService } from "../../services/users.service";
+import { Rol, Provincia, User } from "../../models/user.model";
+import { MatDialog } from "@angular/material/dialog";
+import { MiDialogoComponent } from "src/app/shared/mi-dialogo/mi-dialogo.component";
+import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
+import { filter, switchMap, tap } from "rxjs";
+import { TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
 @Component({
-  selector: 'app-users-list',
-  templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.css'],
+  selector: "app-users-list",
+  templateUrl: "./users-list.component.html",
+  styleUrls: ["./users-list.component.css"],
 })
 export class UsersListComponent implements OnInit {
-  displayedColumns:string[]=['id', 'nombre','email', 'roles', 'acciones'];
+  displayedColumns: string[] = ["id", "nombre", "email", "roles", "acciones"];
   usersList: User[] = [];
-  listaRoles:Rol[]=[];
-  listaProvincias:Provincia[]=[]
+  listaRoles: Rol[] = [];
+  listaProvincias: Provincia[] = [];
   constructor(
     private gui: GuiUtilsService,
-    private usersService: UsersService, private dialogo:MatDialog,
-    private tablasMaestras:TablasMaestrasService
-    ) {}
+    private usersService: UsersService,
+    private dialogo: MatDialog,
+    private tablasMaestras: TablasMaestrasService
+  ) {}
   ngOnInit(): void {
     this.getLista();
-    this.tablasMaestras.getData<Rol>('roles').subscribe((roles)=>{
-      this.listaRoles=roles;
-      console.log(this.listaRoles)
+    this.tablasMaestras.getData<Rol>("roles").subscribe((roles) => {
+      this.listaRoles = roles;
+      console.log(this.listaRoles);
     });
-    this.tablasMaestras.getData<Provincia>('provincias').subscribe((provincia)=>{
-      this.listaProvincias=provincia;
-      console.log(this.listaProvincias)
-    })
+    this.tablasMaestras
+      .getData<Provincia>("provincias")
+      .subscribe((provincia) => {
+        this.listaProvincias = provincia;
+        console.log(this.listaProvincias);
+      });
   }
-  
+
   getNombreRoles(codigosRoles: string[]): string[] {
-    return codigosRoles.map(codigo => {
-      const rol = this.listaRoles.find(r => r.codigo === codigo);
+    return codigosRoles.map((codigo) => {
+      const rol = this.listaRoles.find((r) => r.codigo === codigo);
       return rol ? rol.nombre : "";
     });
   }
-  
-  
+/**
+ * Obtiene la lista de usuarios desde el servicio y asigna los datos al arreglo 'usersList'.
+ 
+ */
   getLista(): void {
     this.usersService.getAll().subscribe({
       next: (users: User[]) => {
         this.usersList = users;
-        console.log(this.usersList)
+        
       },
     });
-  };
+  }
   /**
-   * 
-   * @param id 
-   */
-delete(id:string):void{
-  
+ * Elimina un usuario dado su id. 
+ * 
+ * Primero, se muestra un mensaje de confirmación. Si el usuario confirma la operación,
+ * se procede a intentar eliminar el usuario mediante el método `delete` del `usersService`.
+ * 
+ * Si la operación de eliminación es exitosa (es decir, si la respuesta tiene `ok` como verdadero),
+ * se muestra un mensaje de éxito y se actualiza `this.usersList` con la lista de usuarios actualizada
+ * que se recibe en `data`.
+ * 
+ * Si la operación de eliminación no es exitosa (es decir, si la respuesta tiene `ok` como falso),
+ * se muestra el mensaje de error que se recibe en la respuesta.
+ * 
+ * @param id - El id del usuario a eliminar
+ */
+  delete(id: string): void {
+    this.gui
+      .confirm$("¿Seguro que quiere borrar el usuario?")
+      .pipe(
+        filter((si) => si),
+        switchMap(() => this.usersService.delete(id)),
+        filter((r: any) => {
+          if (!r.ok) {
+            this.gui.showError(r.message);
+          }
+          return r.ok;
+        }),
+        tap((r:{ok:boolean,message:string, data:any}) =>
+          this.gui.mostrarSnackbar(
+           `${r.message}` ,
+            "",
+            3000
+          )
+        )
+        // switchMap(() => this.usersService.getAll())
+      )
+      .subscribe((r: { ok: boolean; message: string; data: any }) => {
+        if (r.ok) {
+          this.usersList = r.data;
+        }
+      });
 
-  this.gui.confirm$('¿Seguro que quiere borrar el usuario?').pipe(
-    filter(si => si),
-    switchMap(() => this.usersService.delete(id)),
-    filter((r: any) => {
-      if(!r.ok){
-        this.gui.showError(r.message);
-      }
-      return r.ok;
-    }),
-    tap(() => this.gui.mostrarSnackbar(`El usuario ${id} se ha eliminado con exito`,'',5000)),
-    switchMap(() => this.usersService.getAll())
-  ).subscribe((usuarios: User[]) => {
-    this.usersList = usuarios;
-  })
-
-  // const dialogRef = this.dialogo.open(MiDialogoComponent, {
-  //   panelClass:'mi-dialogo-personalizado',
-  //   data: {
-  //     titulo: `Eliminar el usuario ${id}`,
-  //     mensaje:'¿Estás seguro?',
-  //     submensaje:'Esto es una prueba'
-  //   }
-  // });
-  // dialogRef.afterClosed().subscribe(result => {
-  //   if (result) {
-      
-  //     this.usersService.delete(id).subscribe((usuarios)=>{
-  //       this.usersList=usuarios
-  //     })
-  //   }
-  // });
-
-
-
-
-  
-}
-
+    
+  }
 }
