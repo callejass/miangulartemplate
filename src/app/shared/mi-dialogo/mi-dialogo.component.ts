@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mi-dialogo',
   templateUrl: './mi-dialogo.component.html',
-  styleUrls: ['./mi-dialogo.component.css']
+  styleUrls: ['./mi-dialogo.component.css'],
+  
 })
 export class MiDialogoComponent  {
 

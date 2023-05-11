@@ -12,6 +12,7 @@ import { LocalDatePipe } from './pipes/local-date.pipe';
 import { YesNoPipe } from './pipes/yes-no.pipe';
 import { LayoutComponent } from './layout/layout.component';
 import { MiDialogoComponent } from './mi-dialogo/mi-dialogo.component';
+import { MiSnackbarComponent } from './mi-snackbar/mi-snackbar.component';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import { MiDialogoComponent } from './mi-dialogo/mi-dialogo.component';
         LocalDatePipe,
         YesNoPipe,
         LayoutComponent,
-        MiDialogoComponent
+        MiDialogoComponent,
+        MiSnackbarComponent
     ],
     exports: [
         FormsModule,

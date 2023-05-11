@@ -1,30 +1,53 @@
-import { Optional } from '@angular/core';
+import { Optional } from "@angular/core";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-
 //import { NbDialogConfig, NbDialogService } from '@nebular/theme';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Inject, Injectable } from '@angular/core';
-import { filter, map, Observable, of } from 'rxjs';
-import {format} from 'date-fns';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { Inject, Injectable } from "@angular/core";
+import { filter, map, Observable, of } from "rxjs";
+import { format } from "date-fns";
 
-import { HttpErrorResponse } from '@angular/common/http';
-import { MiDialogoComponent } from 'src/app/shared/mi-dialogo/mi-dialogo.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { HttpErrorResponse } from "@angular/common/http";
+import { MiDialogoComponent } from "src/app/shared/mi-dialogo/mi-dialogo.component";
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from "@angular/material/snack-bar";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class GuiUtilsService {
   constructor(
     private snackBar: MatSnackBar,
-    @Optional()        
+    @Optional()
     private ds: MatDialog
   ) {}
 
-  public debug(objetos: any[]): void {
+  public mostrarSnackbar(
+    message: string,
+    action: string | undefined,
+    duration: number,
+    horizontalPosition: MatSnackBarHorizontalPosition = "right",
+    verticalPosition:MatSnackBarVerticalPosition='top',
+    panelClass: string | string[] = 'my-custom-snackbar'
+  ): void {
     
+    this.snackBar.open(
+      message,action,{
+        duration:duration,
+        horizontalPosition:horizontalPosition,
+        verticalPosition:verticalPosition,
+        panelClass: panelClass
+      }
+      
+      
+    );
+  }
+
+  public debug(objetos: any[]): void {
     const opciones: MatDialogConfig = {
       data: objetos,
     };
@@ -34,11 +57,11 @@ export class GuiUtilsService {
   public askText$(titulo?: string, subtitulo?: string): Observable<string> {
     const opciones: MatDialogConfig = {
       data: {
-        titulo: titulo ?? 'Texto',
-        subtitulo: subtitulo ?? 'Introduzca un valor',
+        titulo: titulo ?? "Texto",
+        subtitulo: subtitulo ?? "Introduzca un valor",
       },
     };
-    return of('tururú');
+    return of("tururú");
     // const ref = this.ds.open(InputTextPopupComponent, opciones);
     // return ref.afterClosed().pipe(
     //   filter((r) => !!r),
@@ -48,7 +71,7 @@ export class GuiUtilsService {
 
   public confirm$(pregunta: string): Observable<boolean> {
     const opciones: MatDialogConfig = {
-      data: { titulo: pregunta, mensaje:null, submensaje:null },
+      data: { titulo: pregunta, mensaje: null, submensaje: null },
     };
 
     const ref = this.ds.open(MiDialogoComponent, opciones);
@@ -58,8 +81,8 @@ export class GuiUtilsService {
 
   public showErrors(errors: string[], timeout?: number): Observable<boolean> {
     const pMensaje = (
-      errors ?? ['Se ha producido un error pero no hay más información']
-    ).join(' - ');
+      errors ?? ["Se ha producido un error pero no hay más información"]
+    ).join(" - ");
     return this.showError(pMensaje, timeout);
   }
   /** Método para emitir un mensaje de error
@@ -79,8 +102,7 @@ export class GuiUtilsService {
    * @param mensaje Mensaje de éxito
    */
   public showSuccess(mensaje: string, timeout?: number): Observable<boolean> {
-    
-    this.throwMessage(mensaje, 'success');
+    this.throwMessage(mensaje, "success");
     console.log(mensaje);
     return of(true);
     // return this.notifier.success(mensaje, timeout);
@@ -90,13 +112,13 @@ export class GuiUtilsService {
    * @param mensaje Mensaje informativo
    */
   public showInfo(mensaje: string, timeout?: number): Observable<boolean> {
-    this.throwMessage(mensaje, 'info');
+    this.throwMessage(mensaje, "info");
     return of(true);
     // return this.notifier.info(mensaje, timeout);
   }
 
   public showDebug(mensaje: string, timeout?: number): Observable<boolean> {
-    this.throwMessage(mensaje, 'debug');
+    this.throwMessage(mensaje, "debug");
     return of(true);
     //return this.notifier.debug(mensaje, timeout);
   }
@@ -106,7 +128,7 @@ export class GuiUtilsService {
    * @param mensaje Mensaje de warning
    */
   public showWarning(mensaje: string, timeout?: number): Observable<boolean> {
-    this.throwMessage(mensaje, 'warning');
+    this.throwMessage(mensaje, "warning");
     return of(true);
     // return this.notifier.warning(mensaje, timeout);
   }
@@ -126,6 +148,4 @@ export class GuiUtilsService {
    * @param tipo Tipo del mensaje (error, warning, success o info)
    */
   private throwMessage(mensaje: string, tipo: string): void {}
-
-  
 }

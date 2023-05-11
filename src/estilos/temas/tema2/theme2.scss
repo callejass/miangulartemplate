@@ -1,4 +1,4 @@
-// @use "@angular/material" as mat;
+@use "@angular/material" as mat;
 @import '~@angular/material/theming';
 // @import '@angular/material/theming';
 @import 'paleta.scss';
@@ -9,13 +9,14 @@
 
 $paleta: $mat-indigo-palette;
 
-$my-custom-primary: mat-palette($mat-green-palette);
+$my-custom-primary: mat-palette($mat-pink-palette);
 $my-custom-accent: mat-palette($mat-brown-palette);
 $my-custom-warn: mat-palette($mat-red-palette);
 $my-custom-theme2: mat-dark-theme($my-custom-primary, $my-custom-accent, $my-custom-warn);
 
 .theme2 {
     @include angular-material-theme($my-custom-theme2);
+    
   }
 
 // @include angular-material-theme($my-custom-theme1);

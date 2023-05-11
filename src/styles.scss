@@ -1,11 +1,11 @@
 
 
 @use "@angular/material" as mat;
-// @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 // @use './estilos/temas/tema1/theme1.scss';
 // @use './estilos/temas/tema2/theme2.scss';
+@import "~@angular/material/prebuilt-themes/purple-green.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 // @include mat.core();
 
@@ -162,8 +162,25 @@ p .mat-icon {
     opacity: 1;
   }
 }
+
+//  Añadidos por mi
+// .mat-dialog-container {
+//   background-color:#e91e63; ;
+//   border-radius: 8px;
+//   padding: 24px;
+// }
 // .mi-dialogo-personalizado .mat-dialog-container {
-//   background-color: #f5efef; 
-  
+//   background-color: #c72222; 
+// }
   /* Cambia este valor al color que prefieras */
 
+  // .my-custom-snackbar {
+  //   background-color: #0e1a33;
+  //   color: #fff;
+  // }
+
+  /* Personaliza la lista de selección */
+
+  // .mat-mdc-select-panel{
+  //   background-color: rgba(90, 107, 96, 1);
+  // }

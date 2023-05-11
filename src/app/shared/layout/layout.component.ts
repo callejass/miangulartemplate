@@ -20,7 +20,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     userName: string = "";
     isAdmin: boolean = false;
 
-    temaSeleccionado = 'theme1';
+    temaSeleccionado = 'theme2';
     private autoLogoutSubscription: Subscription = new Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,

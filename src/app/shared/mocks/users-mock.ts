@@ -12,7 +12,7 @@ export const USERS=[
     "nombre": "María García",
     "email": "maria.garcia@example.com",
     "fechaNacimiento": "1990-11-23",
-    "provincia": "8",
+    "provincia": "08",
     "roles": ["3", "4"]
   },
   {

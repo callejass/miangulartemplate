@@ -21,6 +21,7 @@ import { format, parse, set } from "date-fns";
 import { TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
 import { FechasService } from "src/app/core/services/fechas.service";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
+import { idUnicoValidador } from "src/app/shared/validators/idUnicoValidador";
 
 @Component({
   selector: "app-detail",
@@ -65,6 +66,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     });
     this.getParams();
     if (this.mode === "edicion" || this.mode === "vista") {
+      // this.userForm.get('id')?.disable()
       this.getUserData(this.userId);
       this.setUserData(this.user);
     }
@@ -82,7 +84,15 @@ export class DetailComponent implements OnInit, OnDestroy {
    */
   createUserForm(): FormGroup {
     return this.fb.group({
-      id: ["", Validators.required],
+      id: ['', {
+        validators: [Validators.required],
+        asyncValidators: [idUnicoValidador(this.usersService)],
+        updateOn: 'change'
+      }],
+
+
+
+      
       nombre: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
       fechaNacimiento: ["", Validators.required],

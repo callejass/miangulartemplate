@@ -65,7 +65,7 @@ delete(id:string):void{
       }
       return r.ok;
     }),
-    tap(() => this.gui.showSuccess('El usuario se ha borrado correctamente')),
+    tap(() => this.gui.mostrarSnackbar(`El usuario ${id} se ha eliminado con exito`,'',5000)),
     switchMap(() => this.usersService.getAll())
   ).subscribe((usuarios: User[]) => {
     this.usersList = usuarios;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { UsersEndpointService } from './users-endpoint.service';
 import { User } from '../models/user.model';
 import { GuiUtilsService } from 'src/app/core/services/gui-utils.service';
@@ -8,6 +8,27 @@ import { GuiUtilsService } from 'src/app/core/services/gui-utils.service';
   providedIn: 'root'
 })
 export class UsersService {
+
+
+
+  /**LLama al endpointService para conseguir la lista de usuarios, se suscribe 
+   * y busca en el array si hay algun usuario con el mismo id. 
+   * 
+   * Si no lo encuentra, retorna un observable con el valor 'true', lo 
+   * que indica que el Id es único.
+   * 
+   * @param id el id será el valor control.value del formulario
+   * @returns 
+   */
+  idUnico(id:string):Observable<boolean>{
+    return this.endpoint.getAll().pipe(
+      map((usuarios: User[]) => {
+        const usuarioEncontrado = usuarios.find(usuario => usuario.id === id);
+        return !usuarioEncontrado; // Retorna 'true' si el ID es único, 'false' si no lo es
+      })
+    );
+    
+  }
 
   constructor(private endpoint: UsersEndpointService,
     private utilidades:GuiUtilsService) { }
