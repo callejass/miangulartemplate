@@ -37,6 +37,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { CustomDateAdapter } from '../features/users/adaptadorFechapersonalizado';
 
+
 export const CUSTOM_DATE_FORMATS = {
   parse: {
     dateInput: 'dd/MM/yyyy',
@@ -47,21 +48,9 @@ export const CUSTOM_DATE_FORMATS = {
     dateA11yLabel: 'dd/MM/yyyy',
     monthYearA11yLabel: 'MMMM yyyy',
   },
-};
 
+}
 
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'DD MMM YYYY',
-  },
-  display: {
-    dateInput: 'DD MMM YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
-  }
-};
 
 // para importar y exportar todo a la vez
 // const materialModules = [MatMomentDateModule,
@@ -96,13 +85,14 @@ export const MY_FORMATS = {
     MatButtonToggleModule, MatSlideToggleModule, MatBadgeModule, MatCheckboxModule,
     MatExpansionModule, SelectCheckAllComponent, DragDropModule, MatSortModule
   ],
-  providers: [
+  
+
+    providers: [{ provide: DateAdapter, useClass: CustomDateAdapter },
+      { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
+      { provide: LOCALE_ID, useValue: 'en-GB' }]
     
     
-    { provide: DateAdapter, useClass: CustomDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
-    { provide: LOCALE_ID, useValue: 'es' }
-  ],
+    ,
   declarations: [SelectCheckAllComponent]
 })
 export class CustomMaterialModule {

@@ -1,26 +1,11 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Router } from "@angular/router";
 import { Provincia, Rol, User } from "../../models/user.model";
 import { UsersService } from "../../services/users.service";
 import { Subscription, filter, switchMap, tap } from "rxjs";
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
-import {
-  ConfirmDialogComponent,
-  ConfirmDialogModel,
-} from "src/app/shared/confirm-dialog/confirm-dialog.component";
-import { formatDate } from "@angular/common";
-import { format, formatISO, parse, parseISO, set } from "date-fns";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { formatISO, parseISO } from "date-fns";
 import { TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
-import { FechasService } from "src/app/core/services/fechas.service";
-import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { idUnicoValidador } from "src/app/shared/validators/idUnicoValidador";
 import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
 
@@ -50,8 +35,6 @@ export class DetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private usersService: UsersService,
     private fb: FormBuilder,
-    private dialog: MatDialog,
-    private fechasService: FechasService,
     private gui: GuiUtilsService
   ) {
     this.userForm = this.createUserForm();
@@ -132,7 +115,9 @@ export class DetailComponent implements OnInit, OnDestroy {
       next: (user: User) => {
         this.user = user;
         const fecha = parseISO(this.user.fechaNacimiento);
-        this.user.fechaNacimiento = formatISO(fecha, { representation: 'date' });
+        this.user.fechaNacimiento = formatISO(fecha, {
+          representation: "date",
+        });
         this.setUserData(this.user);
       },
     });
@@ -146,23 +131,18 @@ export class DetailComponent implements OnInit, OnDestroy {
    * @param {User} user - El usuario del que consigo los datos para el formulario.
    */
   setUserData(user: User): void {
-    
-    
-    const provincia = this.listaProvincias.find(
-      (provincia) => provincia.codigo === user.provincia
-    );
     this.userForm.patchValue({
       id: user.id,
       nombre: user.nombre,
       email: user.email,
-      fechaNacimiento:user.fechaNacimiento,
-      
+      fechaNacimiento: user.fechaNacimiento,
+
       provincia: user.provincia,
       roles: user.roles,
     });
     console.log(this.userForm.value);
   }
-  
+
   establecerValores() {
     const updatedUser = this.userForm.getRawValue();
     this.user.id = updatedUser.id;
@@ -170,51 +150,51 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.user.email = updatedUser.email;
 
     // obtén el valor del campo de fecha
-    const fecha = this.userForm.get('fechaNacimiento')?.value;
+    const fecha = this.userForm.get("fechaNacimiento")?.value;
 
     // comprueba si la fecha es un objeto Date
     if (fecha instanceof Date) {
-        // si es un objeto Date, formatea como string 'yyyy-MM-dd'
-        this.user.fechaNacimiento = formatISO(fecha, { representation: 'date' });
-    } else if (typeof fecha === 'string') {
-        // si es una cadena, asume que ya está en el formato correcto
-        this.user.fechaNacimiento = fecha;
+      // si es un objeto Date, formatea como string 'yyyy-MM-dd'
+      this.user.fechaNacimiento = formatISO(fecha, { representation: "date" });
+    } else if (typeof fecha === "string") {
+      // si es una cadena, asume que ya está en el formato correcto
+      this.user.fechaNacimiento = fecha;
     }
 
     this.user.provincia = updatedUser.provincia;
     this.user.roles = updatedUser.roles;
-}
-
-
-
-  onSubmit(){
-    this.establecerValores();
-    this.gui.confirm$("Desea actualizar el usuario").pipe(
-      filter((si) => si),
-      switchMap(() => {
-        if (this.mode === "edicion") {
-          return this.usersService.update(this.user);
-        } else {
-          return this.usersService.create(this.user);
-        }
-      }),
-      filter((r: any) => {
-        if (!r.ok) {
-          this.gui.showError(r.mensaje);
-        }
-        return r.ok;
-      }),
-      tap((r: { ok: boolean; mensaje: string; data: any }) =>
-        this.gui.mostrarSnackbar(`${r.mensaje}`, "", 3000)
-      )
-    ).subscribe((r: { ok: boolean; mensaje: string; data: any }) => {
-      if (r.ok) {
-        this.user = r.data;
-      }
-    });
   }
-  
-    
+
+  onSubmit() {
+    this.establecerValores();
+    this.gui
+      .confirm$("¿Desea guardar los cambios?")
+      .pipe(
+        filter((si) => si),
+        switchMap(() => {
+          if (this.mode === "edicion") {
+            return this.usersService.update(this.user);
+          } else {
+            return this.usersService.create(this.user);
+          }
+        }),
+        filter((r: any) => {
+          if (!r.ok) {
+            this.gui.showError(r.mensaje);
+          }
+          return r.ok;
+        }),
+        tap((r: { ok: boolean; mensaje: string; data: any }) =>
+          this.gui.mostrarSnackbar(`${r.mensaje}`, "", 3000)
+        )
+      )
+      .subscribe((r: { ok: boolean; mensaje: string; data: any }) => {
+        if (r.ok) {
+          this.user = r.data;
+        }
+      });
+  }
+
   ngOnDestroy(): void {
     this.paramMapSubscription.unsubscribe();
   }

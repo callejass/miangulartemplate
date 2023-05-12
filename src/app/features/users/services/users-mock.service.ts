@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UsersEndpointService } from './users-endpoint.service';
 import {  Observable, of } from 'rxjs';
-import { UsersModule } from '../users.module';
 import { User } from '../models/user.model';
-import { HttpClient } from '@angular/common/http';
 import { USERS } from 'src/app/shared/mocks/users-mock';
 
 @Injectable({

@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { UsersService } from "../../services/users.service";
 import { Rol, Provincia, User } from "../../models/user.model";
 import { MatDialog } from "@angular/material/dialog";
-import { MiDialogoComponent } from "src/app/shared/mi-dialogo/mi-dialogo.component";
 import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
 import { filter, switchMap, tap } from "rxjs";
 import { TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
@@ -88,7 +87,7 @@ export class UsersListComponent implements OnInit {
             3000
           )
         )
-        // switchMap(() => this.usersService.getAll())
+        
       )
       .subscribe((r: { ok: boolean; message: string; data: any }) => {
         if (r.ok) {
