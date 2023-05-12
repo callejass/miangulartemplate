@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -13,7 +13,19 @@ import { UsersService } from './features/users/services/users.service';
 import { UsersEndpointService } from './features/users/services/users-endpoint.service';
 import { UsersMockService } from './features/users/services/users-mock.service';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { CustomDateAdapter } from './features/users/adaptadorFechapersonalizado';
+export const CUSTOM_DATE_FORMATS = {
+  parse: {
+    dateInput: 'dd/MM/yyyy',
+  },
+  display: {
+    dateInput: 'dd/MM/yyyy',
+    monthYearLabel: 'MMM yyyy',
+    dateA11yLabel: 'dd/MM/yyyy',
+    monthYearA11yLabel: 'MMMM yyyy',
+  },
+};
 @NgModule({
   declarations: [
     AppComponent
@@ -32,7 +44,12 @@ import { MatDialogModule } from '@angular/material/dialog';
       serverLogLevel: environment.serverLogLevel
     })
   ],
-  providers:[UsersService,{provide:UsersEndpointService, useClass:UsersMockService}],
+  providers:[UsersService,{provide:UsersEndpointService, useClass:UsersMockService},
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
+    
+  
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

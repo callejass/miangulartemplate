@@ -67,11 +67,44 @@ export class UsersService {
 }
 
 
-  update(user:User):Observable<User>{
-    console.log('Actualizando usuario:' , user)
-    return this.endpoint.update(user);
+  update(user:User):Observable<{ok:boolean, mensaje:string, data:User| null}>{
+    return this.endpoint.update(user).pipe(
+      map((data:User)=>{
+        return{
+          ok:true,
+          mensaje:'Usuario editado con éxito',
+          data:data
+        };
+        
+      }),
+      catchError((error:any)=>{
+        return of({ok: false, mensaje: 'Hubo un error al actualizar el usuario', data: null})
+      })
+    )
+
+
+
   }
-  create(user:User):Observable<User>{
-    return this.endpoint.create(user)
+    
+  create(user:User):Observable<{ok:boolean, mensaje:string, data:User| null}>{
+    return this.endpoint.create(user).pipe(
+      map((data:User)=>{
+        return{
+          ok:true,
+          mensaje:'Usuario creado con éxito',
+          data:data
+        };
+        
+      }),
+      catchError((error:any)=>{
+        return of({ok: false, mensaje: 'Hubo un error crear el usuario', data: null})
+      })
+    )
+
+
+
   }
+    
+  
+  
 }

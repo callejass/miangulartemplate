@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router";
 import { Provincia, Rol, User } from "../../models/user.model";
 import { UsersService } from "../../services/users.service";
-import { Subscription } from "rxjs";
+import { Subscription, filter, switchMap, tap } from "rxjs";
 import {
   FormArray,
   FormBuilder,
@@ -17,11 +17,12 @@ import {
   ConfirmDialogModel,
 } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 import { formatDate } from "@angular/common";
-import { format, parse, set } from "date-fns";
+import { format, formatISO, parse, parseISO, set } from "date-fns";
 import { TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
 import { FechasService } from "src/app/core/services/fechas.service";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { idUnicoValidador } from "src/app/shared/validators/idUnicoValidador";
+import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
 
 @Component({
   selector: "app-detail",
@@ -50,7 +51,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private fechasService: FechasService
+    private fechasService: FechasService,
+    private gui: GuiUtilsService
   ) {
     this.userForm = this.createUserForm();
   }
@@ -70,13 +72,12 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.setUserData(this.user);
       // Deshabilitar el campo 'id' si el modo es 'edicion'
       if (this.mode === "edicion") {
-        this.userForm.get('id')?.disable();
+        this.userForm.get("id")?.disable();
       }
       if (this.mode === "vista") {
         this.userForm.disable();
       }
     }
-    
   }
   /**
    * Crea y devuelve un FormGroup para el formulario de usuario.
@@ -86,15 +87,15 @@ export class DetailComponent implements OnInit, OnDestroy {
    */
   createUserForm(): FormGroup {
     return this.fb.group({
-      id: ['', {
-        validators: [Validators.required],
-        asyncValidators: [idUnicoValidador(this.usersService)],
-        updateOn: 'change'
-      }],
+      id: [
+        "",
+        {
+          validators: [Validators.required],
+          asyncValidators: [idUnicoValidador(this.usersService)],
+          updateOn: "change",
+        },
+      ],
 
-
-
-      
       nombre: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
       fechaNacimiento: ["", Validators.required],
@@ -130,6 +131,9 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.usersService.get(userId).subscribe({
       next: (user: User) => {
         this.user = user;
+        const fecha = parseISO(this.user.fechaNacimiento);
+        this.user.fechaNacimiento = formatISO(fecha, { representation: 'date' });
+        this.setUserData(this.user);
       },
     });
   }
@@ -142,6 +146,8 @@ export class DetailComponent implements OnInit, OnDestroy {
    * @param {User} user - El usuario del que consigo los datos para el formulario.
    */
   setUserData(user: User): void {
+    
+    
     const provincia = this.listaProvincias.find(
       (provincia) => provincia.codigo === user.provincia
     );
@@ -149,37 +155,66 @@ export class DetailComponent implements OnInit, OnDestroy {
       id: user.id,
       nombre: user.nombre,
       email: user.email,
-      fechaNacimiento: user.fechaNacimiento,
+      fechaNacimiento:user.fechaNacimiento,
+      
       provincia: user.provincia,
       roles: user.roles,
     });
-    console.log(this.userForm);
+    console.log(this.userForm.value);
   }
-  onSubmit() {
-    
+  
+  establecerValores() {
     const updatedUser = this.userForm.getRawValue();
-
     this.user.id = updatedUser.id;
     this.user.nombre = this.userForm.value.nombre;
     this.user.email = updatedUser.email;
+
+    // obtén el valor del campo de fecha
+    const fecha = this.userForm.get('fechaNacimiento')?.value;
+
+    // comprueba si la fecha es un objeto Date
+    if (fecha instanceof Date) {
+        // si es un objeto Date, formatea como string 'yyyy-MM-dd'
+        this.user.fechaNacimiento = formatISO(fecha, { representation: 'date' });
+    } else if (typeof fecha === 'string') {
+        // si es una cadena, asume que ya está en el formato correcto
+        this.user.fechaNacimiento = fecha;
+    }
+
     this.user.provincia = updatedUser.provincia;
     this.user.roles = updatedUser.roles;
-    // Convertir la fecha de nacimiento al formato deseado
-    if (updatedUser.fechaNacimiento) {
-      
-      updatedUser.fechaNacimiento = this.fechasService.formateoDeFecha(updatedUser.fechaNacimiento)
-      this.user.fechaNacimiento = updatedUser.fechaNacimiento;
-      console.log(this.userForm.value);
-    }
-    if (this.mode === "edicion") {
-      this.usersService.update(this.user);
-      console.log(this.userForm.value);
-    } else {
-      this.usersService.create(this.user);
-    }
-    
-  }
+}
 
+
+
+  onSubmit(){
+    this.establecerValores();
+    this.gui.confirm$("Desea actualizar el usuario").pipe(
+      filter((si) => si),
+      switchMap(() => {
+        if (this.mode === "edicion") {
+          return this.usersService.update(this.user);
+        } else {
+          return this.usersService.create(this.user);
+        }
+      }),
+      filter((r: any) => {
+        if (!r.ok) {
+          this.gui.showError(r.mensaje);
+        }
+        return r.ok;
+      }),
+      tap((r: { ok: boolean; mensaje: string; data: any }) =>
+        this.gui.mostrarSnackbar(`${r.mensaje}`, "", 3000)
+      )
+    ).subscribe((r: { ok: boolean; mensaje: string; data: any }) => {
+      if (r.ok) {
+        this.user = r.data;
+      }
+    });
+  }
+  
+    
   ngOnDestroy(): void {
     this.paramMapSubscription.unsubscribe();
   }
