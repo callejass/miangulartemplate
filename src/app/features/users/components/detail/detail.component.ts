@@ -52,7 +52,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.getParams();
     if (this.mode === "edicion" || this.mode === "vista") {
       this.getUserData(this.userId);
-      this.setUserData(this.user);
+      
       // Deshabilitar el campo 'id' si el modo es 'edicion'
       if (this.mode === "edicion") {
         this.userForm.get("id")?.disable();
