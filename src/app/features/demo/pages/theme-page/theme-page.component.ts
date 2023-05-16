@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-theme-page',
@@ -9,7 +10,10 @@ export class ThemePageComponent implements OnInit {
 
   constructor() { }
 
+  fecha: FormControl = new FormControl('2023-05-24');
+
   ngOnInit(): void {
+    console.log('');
   }
 
 }

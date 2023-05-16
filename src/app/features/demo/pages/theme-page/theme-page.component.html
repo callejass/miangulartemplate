@@ -1,7 +1,22 @@
 <div class="container" fxLayout="row" fxLayoutAlign="space-around none">
-
-
-    <div fxFlex="48%">
+    <div fxFlex="30%">
+        <mat-card>
+            <mat-card-header>
+                <h3>Fecha</h3>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-form-field appearance="fill">
+                    <mat-label>Moment.js datepicker</mat-label>
+                    <input matInput [matDatepicker]="dp" [formControl]="fecha">
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp></mat-datepicker>
+                  </mat-form-field>      
+                  {{fecha.value}}
+            </mat-card-content>
+        </mat-card>        
+    </div>
+    <div fxFlex="30%">
         <mat-card>
             <mat-card-header>
                 <h3>Botones</h3>
@@ -13,15 +28,16 @@
             </mat-card-content>
         </mat-card>        
     </div>
-    <div fxFlex="48%">
+    <div fxFlex="30%">
         <mat-card>
             <mat-card-header>
-
+                <h3>Nada</h3>
             </mat-card-header>
             <mat-card-content>
                 <p>theme-page works!</p>            
             </mat-card-content>
         </mat-card>        
     </div>
+    
   </div>
 
