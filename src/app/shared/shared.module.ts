@@ -13,6 +13,7 @@ import { YesNoPipe } from './pipes/yes-no.pipe';
 import { LayoutComponent } from './layout/layout.component';
 import { MiDialogoComponent } from './mi-dialogo/mi-dialogo.component';
 import { MiSnackbarComponent } from './mi-snackbar/mi-snackbar.component';
+import { VistaPeticionesComponent } from './vista-peticiones/vista-peticiones.component';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { MiSnackbarComponent } from './mi-snackbar/mi-snackbar.component';
         YesNoPipe,
         LayoutComponent,
         MiDialogoComponent,
-        MiSnackbarComponent
+        MiSnackbarComponent,
+        VistaPeticionesComponent
     ],
     exports: [
         FormsModule,

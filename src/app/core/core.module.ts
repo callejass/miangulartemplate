@@ -10,6 +10,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 import { GlobalErrorHandler } from './services/globar-error.handler';
 import { AdminGuard } from './guards/admin.guard';
+import { CopiaInterceptor } from './interceptors/copia.interceptor';
 
 @NgModule({
   imports: [
@@ -31,6 +32,11 @@ import { AdminGuard } from './guards/admin.guard';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {provide:HTTP_INTERCEPTORS,
+      useClass:CopiaInterceptor,
+      multi:true
+
     },
     {
       provide: ErrorHandler,

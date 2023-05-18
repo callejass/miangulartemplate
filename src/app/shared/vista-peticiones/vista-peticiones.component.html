@@ -1,0 +1,8 @@
+<p>vista-peticiones works!</p>
+<h3 mat-subheader></h3>
+<ng-container *ngFor="let peticion of misPeticiones;let i=index">
+
+    <p>Petición {{i}}</p>
+    <p>Url: {{peticion.url}}</p>
+</ng-container>
+<button (click)="clear()">Borrar peticiones</button>
