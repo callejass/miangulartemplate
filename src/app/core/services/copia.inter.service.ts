@@ -1,6 +1,6 @@
 import { HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, ReplaySubject, Subject } from "rxjs";
+import { Observable, ReplaySubject, Subject, of, throwError } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -81,8 +81,15 @@ export class CopiaInterService {
    * y notificar a todos los Observers (los componentes o servicios que se suscriben a este
    * Subject) sobre la actualización, proporcionándoles una lista vacía de peticiones HTTP.
    */
-  clear(): void {
-    this.arrayPeticiones = [];
-    this.peticionesSubject.next(this.arrayPeticiones);
+
+  clear(): Observable<{ ok: boolean }> {
+    try {
+      this.arrayPeticiones = [];
+      this.peticionesSubject.next(this.arrayPeticiones);
+      return of({ ok: true });
+    } catch (error) {
+      console.error("Hubo un problema al limpiar las peticiones:", error);
+      return throwError({ ok: false, error: error });
+    }
   }
 }

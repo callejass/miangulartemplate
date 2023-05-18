@@ -1,7 +1,8 @@
 import { HttpRequest } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, filter, switchMap, tap } from "rxjs";
 import { CopiaInterService } from "src/app/core/services/copia.inter.service";
+import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
 
 @Component({
   selector: "app-vista-peticiones",
@@ -11,7 +12,10 @@ import { CopiaInterService } from "src/app/core/services/copia.inter.service";
 export class VistaPeticionesComponent implements OnInit {
   misPeticiones!: HttpRequest<any>[];
 
-  constructor(private copiaInterService: CopiaInterService) {}
+  constructor(
+    private copiaInterService: CopiaInterService,
+    private gui: GuiUtilsService
+  ) {}
   ngOnInit(): void {
     this.copiaInterService.peticiones$.subscribe(
       (peticiones: HttpRequest<any>[]) => {
@@ -19,8 +23,24 @@ export class VistaPeticionesComponent implements OnInit {
       }
     );
   }
-
+/**
+ * 
+ */
   clear(): void {
-    this.copiaInterService.clear();
-  }
-}
+    this.gui.confirm$("Desea borrar las peticiones?").pipe(
+      filter((si)=>si),
+      switchMap(()=>this.copiaInterService.clear())
+    ).subscribe({
+
+      next:(r)=>{
+      if (r.ok){
+        this.gui.mostrarSnackbar('Las peticiones han sido borradas');
+      } 
+    
+  },
+  error:(e)=>this.gui.mostrarSnackbar('hubo un error al borrar'),
+  // complete:()=>
+  complete:()=>console.info('operacion completada')
+
+})
+   } }

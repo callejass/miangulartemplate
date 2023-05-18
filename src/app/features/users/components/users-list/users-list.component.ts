@@ -25,13 +25,13 @@ export class UsersListComponent implements OnInit {
     this.getLista();
     this.tablasMaestras.getData<Rol>("roles").subscribe((roles) => {
       this.listaRoles = roles;
-      console.log(this.listaRoles);
+      
     });
     this.tablasMaestras
       .getData<Provincia>("provincias")
       .subscribe((provincia) => {
         this.listaProvincias = provincia;
-        console.log(this.listaProvincias);
+       
       });
   }
 
@@ -82,9 +82,7 @@ export class UsersListComponent implements OnInit {
         }),
         tap((r:{ok:boolean,message:string, data:any}) =>
           this.gui.mostrarSnackbar(
-           `${r.message}` ,
-            "",
-            3000
+           `${r.message}` 
           )
         )
         

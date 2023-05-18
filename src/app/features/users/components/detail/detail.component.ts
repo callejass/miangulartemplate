@@ -185,7 +185,7 @@ export class DetailComponent implements OnInit, OnDestroy {
           return r.ok;
         }),
         tap((r: { ok: boolean; mensaje: string; data: any }) =>
-          this.gui.mostrarSnackbar(`${r.mensaje}`, "", 3000)
+          this.gui.mostrarSnackbar(`${r.mensaje}`)
         )
       )
       .subscribe((r: { ok: boolean; mensaje: string; data: any }) => {

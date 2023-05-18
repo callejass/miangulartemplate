@@ -28,8 +28,8 @@ export class GuiUtilsService {
 
   public mostrarSnackbar(
     message: string,
-    action: string | undefined,
-    duration: number,
+    action: string | undefined=undefined,
+    duration: number=3000,
     horizontalPosition: MatSnackBarHorizontalPosition = "right",
     verticalPosition:MatSnackBarVerticalPosition='top',
     panelClass: string | string[] = 'my-custom-snackbar'
@@ -69,6 +69,22 @@ export class GuiUtilsService {
     // );
   }
 
+  /**
+ * Método `confirm$` para abrir un diálogo modal y obtener una confirmación del usuario.
+ *
+ * @param {string} pregunta - La pregunta que se muestra en el diálogo de confirmación.
+ *
+ * @returns {Observable<boolean>} - Un Observable que emite un valor booleano una vez
+ *                                  que el diálogo se cierra. El valor booleano es el
+ *                                  resultado de la confirmación del usuario.
+ *
+ * La función configura y abre un diálogo modal a través del servicio `MatDialog`. El
+ * diálogo es del tipo `MiDialogoComponent` y se le pasa un objeto de configuración
+ * que incluye la pregunta que se muestra en el diálogo.
+ *
+ * La función devuelve un Observable que emite el resultado de la confirmación del usuario
+ * (un valor booleano) cuando el diálogo se cierra.
+ */
   public confirm$(pregunta: string): Observable<boolean> {
     const opciones: MatDialogConfig = {
       data: { titulo: pregunta, mensaje: null, submensaje: null },
