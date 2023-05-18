@@ -10,21 +10,17 @@ import { CopiaInterService } from "src/app/core/services/copia.inter.service";
 })
 export class VistaPeticionesComponent implements OnInit {
   misPeticiones!: HttpRequest<any>[];
-  misPeticiones$!:Observable<HttpRequest<any>[]>
-  constructor(private copiaInter: CopiaInterService) {
-    
-  }
+
+  constructor(private copiaInterService: CopiaInterService) {}
   ngOnInit(): void {
-    this.misPeticiones$=this.copiaInter.peticiones$;
-    this.copiaInter.peticiones$.subscribe((peticiones: HttpRequest<any>[]) => {
-      this.misPeticiones = peticiones;
-      console.log('Peticiones almacenadas: ', this.misPeticiones);
-    });
-    console.log('iniciando componente');
+    this.copiaInterService.peticiones$.subscribe(
+      (peticiones: HttpRequest<any>[]) => {
+        this.misPeticiones = peticiones;
+      }
+    );
   }
 
   clear(): void {
-    console.log('boton presionado');
-    this.copiaInter.clear();
+    this.copiaInterService.clear();
   }
 }

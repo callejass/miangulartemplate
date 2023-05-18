@@ -100,7 +100,7 @@
 
         <mat-divider></mat-divider>
 
-        <app-vista-peticiones></app-vista-peticiones>
+        
         <!-- <h3 mat-subheader>Temas</h3>        
         <ng-container *ngFor="let tema of ['theme1','theme2']">
           <a mat-list-item  (click)="changeTheme(tema)"> 
@@ -144,16 +144,20 @@
     </mat-sidenav>
 
     <!-- Main content -->
-    <mat-sidenav-content class="sidenav-content">
-
+    <!-- Main content -->
+<mat-sidenav-content class="sidenav-content">
+  <div class="main-content">
+    <div class="content-wrapper">
       <div class="progress-bar-container">
-        <mat-progress-bar color="accent" mode="indeterminate" *ngIf="spinnerService.visibility | async">
-        </mat-progress-bar>
+        <mat-progress-bar color="accent" mode="indeterminate" *ngIf="spinnerService.visibility | async"></mat-progress-bar>
         <!-- <mat-spinner class="spinner" [diameter]="50" *ngIf="showSpinner"></mat-spinner> -->
       </div>
       <router-outlet></router-outlet>
+    </div>
+    <app-vista-peticiones class="side-card"></app-vista-peticiones>
+  </div>
+</mat-sidenav-content>
 
-    </mat-sidenav-content>
   </mat-sidenav-container>
 
 </div>

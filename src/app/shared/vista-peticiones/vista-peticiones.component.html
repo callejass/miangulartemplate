@@ -3,7 +3,7 @@
 <ng-container *ngFor="let peticion of misPeticiones;let i=index">
     
 
-    <p>Petición {{i}}</p>
+    <p>Petición {{i+1}}</p>
     <p>Url: {{peticion.url}}</p>
 </ng-container>
-<button (click)="clear()">Borrar peticiones</button>
+<button mat-raised-button color="primary" (click)="clear()">Borrar peticiones</button>

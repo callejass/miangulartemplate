@@ -13,7 +13,7 @@ export class CopiaInterceptor implements HttpInterceptor {
 
   constructor(private copiaInterService:CopiaInterService) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.copiaInterService.guardarPeticion(request.clone());
     
     return next.handle(request);
