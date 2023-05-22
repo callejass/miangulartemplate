@@ -7,9 +7,14 @@ import { AuthGuard } from './core/guards/auth.guard';
 const appRoutes: Routes = [
   
   {
+    path:'login',
+    loadChildren:()=>import('./features/mi-auth/mi-auth.module').then(m=>m.MiAuthModule),
+
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
-     canActivate: [AuthGuard]
+     
   },
   {
     path: 'demo',
@@ -25,11 +30,6 @@ const appRoutes: Routes = [
     path: 'users',
     loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
      canActivate: [AuthGuard]
-  },
-  {
-    path:'login',
-    loadChildren:()=>import('./features/mi-auth/mi-auth.module').then(m=>m.MiAuthModule),
-
   },
   {
     path: 'icons',
