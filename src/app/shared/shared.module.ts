@@ -18,10 +18,10 @@ import { VistaPeticionesComponent } from './vista-peticiones/vista-peticiones.co
 @NgModule({
     imports: [
         CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
         RouterModule,
         CustomMaterialModule,
-        FormsModule,
-        ReactiveFormsModule,
         FlexLayoutModule,
     ],
     declarations: [

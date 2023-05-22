@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
 
 
 
@@ -8,28 +9,32 @@ const appRoutes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
-    // canActivate: [AuthGuard]
+     canActivate: [AuthGuard]
   },
   {
     path: 'demo',
     loadChildren: () => import('./features/demo/demo.module').then(m => m.DemoModule),
-    // canActivate: [AuthGuard]
+     canActivate: [AuthGuard]
   },
   {
     path: 'customers',
     loadChildren: () => import('./features/customers/customers.module').then(m => m.CustomersModule),
-    // canActivate: [AuthGuard]
+     canActivate: [AuthGuard]
   },
   {
     path: 'users',
     loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
-    // canActivate: [AuthGuard]
+     canActivate: [AuthGuard]
   },
-  
+  {
+    path:'login',
+    loadChildren:()=>import('./features/mi-auth/mi-auth.module').then(m=>m.MiAuthModule),
+
+  },
   {
     path: 'icons',
     loadChildren: () => import('./features/icons/icons.module').then(m => m.IconsModule),
-    // canActivate: [AuthGuard]
+     canActivate: [AuthGuard]
   },
   {
     path: 'typography',
