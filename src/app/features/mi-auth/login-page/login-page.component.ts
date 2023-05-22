@@ -23,3 +23,26 @@ export class LoginPageComponent {
     this.authService.miLogin(nombre, password).subscribe();
   }
 }
+// login() {
+//   const email = this.loginForm.get('email')?.value;
+//   const password = this.loginForm.get('password')?.value;
+//   const rememberMe = this.loginForm.get('rememberMe')?.value;
+
+//   this.loading = true;
+//   this.authenticationService
+//       .login(email.toLowerCase(), password)
+//       .subscribe(
+//           data => {
+//               if (rememberMe) {
+//                   localStorage.setItem('savedUserEmail', email);
+//               } else {
+//                   localStorage.removeItem('savedUserEmail');
+//               }
+//               this.router.navigate(['/']);
+//           },
+//           error => {
+//               this.notificationService.openSnackBar(error.error);
+//               this.loading = false;
+//           }
+//       );
+// }

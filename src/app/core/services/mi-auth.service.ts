@@ -1,12 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable, map } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class MiAuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router:Router) {}
 
   miLogin(nombre: string, password: string): Observable<any> {
     return this.http.get<any[]>("/assets/data/miUsuario.json").pipe(
@@ -15,8 +16,9 @@ export class MiAuthService {
           (u) => u.nombre === nombre && u.password === password
         );
         if (usuario) {
-          sessionStorage.setItem("usuario", nombre);
-          sessionStorage.setItem("token", "123456789");
+          localStorage.setItem("usuario", nombre);
+          localStorage.setItem("token", "123456789");
+          this.router.navigate(['/dashboard'])
           return usuario;
         } else {
           return null;
@@ -25,6 +27,6 @@ export class MiAuthService {
     );
   }
   miGetToken(): string | null {
-    return sessionStorage.getItem("token");
+    return localStorage.getItem("token");
   }
 }
