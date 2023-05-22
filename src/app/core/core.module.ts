@@ -11,6 +11,7 @@ import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 import { GlobalErrorHandler } from './services/globar-error.handler';
 
 import { CopiaInterceptor } from './interceptors/copia.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   imports: [
@@ -28,11 +29,11 @@ import { CopiaInterceptor } from './interceptors/copia.interceptor';
     //   useClass: SpinnerInterceptor,
     //   multi: true
     // },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: AuthInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     {provide:HTTP_INTERCEPTORS,
       useClass:CopiaInterceptor,
       multi:true
