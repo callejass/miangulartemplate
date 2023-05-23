@@ -79,6 +79,12 @@
           </mat-icon>
           <p mat-line> Users </p>
         </a>
+        <a mat-list-item [routerLink]="['/account']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            people
+          </mat-icon>
+          <p mat-line> Account </p>
+        </a>
 
         <a mat-list-item [routerLink]="['/icons']" routerLinkActive="active">
           <mat-icon mat-list-icon (click)="logOut()">
