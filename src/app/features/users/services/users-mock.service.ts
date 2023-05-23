@@ -3,13 +3,14 @@ import { UsersEndpointService } from './users-endpoint.service';
 import {  Observable, of } from 'rxjs';
 import { User } from '../models/user.model';
 import { USERS } from 'src/app/shared/mocks/users-mock';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersMockService implements UsersEndpointService{
 UserList:User[]=USERS;
-  constructor() { }
+  
 /**
  * Este metodo devuelve la lista de usuarios Mock
  * @returns {Observable<User[]>}

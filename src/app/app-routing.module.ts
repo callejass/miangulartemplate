@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 
 
 
@@ -19,7 +20,7 @@ const appRoutes: Routes = [
   {
     path: 'demo',
     loadChildren: () => import('./features/demo/demo.module').then(m => m.DemoModule),
-     canActivate:[AuthGuard]
+     canActivate:[AdminGuard]
   },
   {
     path: 'customers',

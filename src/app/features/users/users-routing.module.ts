@@ -6,6 +6,7 @@ import { UserListComponent } from './user-list/user-list.component';
 
 import { DetailPageComponent } from './pages/detail-page/detail-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { AdminGuard } from 'src/app/core/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: HomePageComponent },
-      {path:'detail/:id', component:DetailPageComponent}
+      {path:'detail/:id', canActivate:[AdminGuard], component:DetailPageComponent}
     ]
   }
 ];
