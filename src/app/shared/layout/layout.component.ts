@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 
  
 import { SpinnerService } from '../../core/services/spinner.service';
+import { MiAuthService } from 'src/app/core/services/mi-auth.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class LayoutComponent implements  OnDestroy, AfterViewInit {
     constructor(private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher,
         public spinnerService: SpinnerService,
+        private authService:MiAuthService
         
         ) {
 
@@ -35,7 +37,10 @@ export class LayoutComponent implements  OnDestroy, AfterViewInit {
         this.mobileQuery.addListener(this._mobileQueryListener);
     }
 
-    
+    logOut(){
+        this.authService.miLogOut();
+
+    }
     ngOnDestroy(): void {
         // tslint:disable-next-line: deprecation
         this.mobileQuery.removeListener(this._mobileQueryListener);

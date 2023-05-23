@@ -10,7 +10,7 @@ import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
   styleUrls: ["./vista-peticiones.component.css"],
 })
 export class VistaPeticionesComponent implements OnInit {
-  misPeticiones!: HttpRequest<any>[];
+  misPeticiones: HttpRequest<any>[]=[]
 
   constructor(
     private copiaInterService: CopiaInterService,
@@ -18,8 +18,10 @@ export class VistaPeticionesComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.copiaInterService.peticiones$.subscribe(
-      (peticiones: HttpRequest<any>[]) => {
-        this.misPeticiones = peticiones;
+      (peticiones: HttpRequest<any>) => {
+        console.log(this.misPeticiones.length);
+        this.misPeticiones.push(peticiones);
+        console.log(this.misPeticiones.length)
       }
     );
   }
@@ -29,11 +31,11 @@ export class VistaPeticionesComponent implements OnInit {
   clear(): void {
     this.gui.confirm$("Desea borrar las peticiones?").pipe(
       filter((si)=>si),
-      switchMap(()=>this.copiaInterService.clear())
+      switchMap(()=>this.misPeticiones=[])
     ).subscribe({
 
       next:(r)=>{
-      if (r.ok){
+      if (r){
         this.gui.mostrarSnackbar('Las peticiones han sido borradas');
       } 
     
@@ -43,4 +45,5 @@ export class VistaPeticionesComponent implements OnInit {
   complete:()=>console.info('operacion completada')
 
 })
-   } }
+   } 
+}

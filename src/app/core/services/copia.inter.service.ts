@@ -26,9 +26,9 @@ export class CopiaInterService {
  
  * 
  */
-  private peticionesSubject = new ReplaySubject<HttpRequest<any>[]>();
+  private peticionesSubject = new ReplaySubject<HttpRequest<any>>();
 
-  public peticiones$: Observable<HttpRequest<any>[]>;
+  public peticiones$: Observable<HttpRequest<any>>;
 
   //  HttpRequest<any>[] es un array que representa las peticiones HTTP.
   private arrayPeticiones: HttpRequest<any>[] = [];
@@ -42,29 +42,30 @@ export class CopiaInterService {
 
  */
   constructor() {
-    this.peticiones$ = this.peticionesSubject.asObservable();
+    this.peticiones$ = this.peticionesSubject;
   }
-
+  
   /**
    * Método `guardarPeticion` recibe una petición HTTP como argumento.
-   *
-   * @param {HttpRequest<any>} peticion - La petición HTTP a guardar.
-   *
-   * Este método realiza dos acciones:
-   * 1. Añade la petición al array `this.arrayPeticiones` utilizando el método `push()`.
-   *    El método `push()` de JavaScript añade uno o más elementos al final del array.
-   * 2. Emite la última versión del array `this.arrayPeticiones` a través del método `next()`
-   *    del Subject `this.peticionesSubject`. El método `next()` de RxJS se utiliza para emitir
-   *    un nuevo valor en el flujo de datos.
-   *
-   * Por lo tanto, este método se utiliza para almacenar las peticiones HTTP y actualizar
-   * el flujo de datos del Subject `this.peticionesSubject` para que todos los Observers
-   * (los componentes o servicios que se suscriben a este Subject) reciban la lista más reciente
-   * de peticiones HTTP.
-   */
-  guardarPeticion(peticion: HttpRequest<any>): void {
-    this.arrayPeticiones.push(peticion);
-    this.peticionesSubject.next(this.arrayPeticiones);
+  *
+  * @param {HttpRequest<any>} peticion - La petición HTTP a guardar.
+  *
+  * Este método realiza dos acciones:
+  * 1. Añade la petición al array `this.arrayPeticiones` utilizando el método `push()`.
+  *    El método `push()` de JavaScript añade uno o más elementos al final del array.
+  * 2. Emite la última versión del array `this.arrayPeticiones` a través del método `next()`
+  *    del Subject `this.peticionesSubject`. El método `next()` de RxJS se utiliza para emitir
+  *    un nuevo valor en el flujo de datos.
+  *
+  * Por lo tanto, este método se utiliza para almacenar las peticiones HTTP y actualizar
+  * el flujo de datos del Subject `this.peticionesSubject` para que todos los Observers
+  * (los componentes o servicios que se suscriben a este Subject) reciban la lista más reciente
+  * de peticiones HTTP.
+  */
+ guardarPeticion(peticion: HttpRequest<any>): void {
+    
+    console.log(peticion)
+    this.peticionesSubject.next(peticion);
   }
 
   /**
@@ -82,14 +83,14 @@ export class CopiaInterService {
    * Subject) sobre la actualización, proporcionándoles una lista vacía de peticiones HTTP.
    */
 
-  clear(): Observable<{ ok: boolean }> {
-    try {
-      this.arrayPeticiones = [];
-      this.peticionesSubject.next(this.arrayPeticiones);
-      return of({ ok: true });
-    } catch (error) {
-      console.error("Hubo un problema al limpiar las peticiones:", error);
-      return throwError({ ok: false, error: error });
-    }
-  }
+  // clear(): Observable<{ ok: boolean }> {
+  //   try {
+  //     this.arrayPeticiones = [];
+  //     this.peticionesSubject.next(this.arrayPeticiones);
+  //     return of({ ok: true });
+  //   } catch (error) {
+  //     console.error("Hubo un problema al limpiar las peticiones:", error);
+  //     return throwError({ ok: false, error: error });
+  //   }
+  // }
 }

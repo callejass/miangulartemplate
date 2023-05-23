@@ -34,16 +34,19 @@ const appRoutes: Routes = [
   {
     path: 'icons',
     loadChildren: () => import('./features/icons/icons.module').then(m => m.IconsModule),
-     
+    canActivate:[AuthGuard]
+    
   },
   {
     path: 'typography',
     loadChildren: () => import('./features/typography/typography.module').then(m => m.TypographyModule),
-   
+    canActivate:[AuthGuard]
+    
   },
   {
     path: 'about',
     loadChildren: () => import('./features/about/about.module').then(m => m.AboutModule),
+    canActivate:[AuthGuard]
     
   },
   {

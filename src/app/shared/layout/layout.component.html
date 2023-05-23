@@ -80,7 +80,12 @@
           <p mat-line> Users </p>
         </a>
 
-        
+        <a mat-list-item [routerLink]="['/icons']" routerLinkActive="active">
+          <mat-icon mat-list-icon (click)="logOut()">
+            toll
+          </mat-icon>
+          <p mat-line> Log-out </p>
+        </a>
 
         
 

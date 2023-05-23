@@ -28,5 +28,10 @@ export class MiAuthService {
   }
   miGetToken(): string | null {
     return localStorage.getItem("token");
+  };
+  miLogOut():void{
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    
   }
 }
