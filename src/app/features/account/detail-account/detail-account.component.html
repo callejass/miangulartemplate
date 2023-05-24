@@ -10,10 +10,13 @@
 
   <mat-card-content>
     <p><strong>Fecha de Nacimiento:</strong> {{ miUsuario?.fechaNacimiento  }}</p>
-    <p><strong>Provincia:</strong> {{ miUsuario?.provincia }}</p>
+    <p><strong>Provincia:</strong> {{ getNombreProvincia(miUsuario?.provincia) }}</p>
+
     <p><strong>Roles:</strong></p>
-    <mat-chip-list aria-label="Fish selection">
-      <mat-chip *ngFor="let rol of miUsuario?.roles">{{ rol }}</mat-chip>
-    </mat-chip-list>
+    <ul>
+      <li *ngFor="let rol of getNombreRoles(miUsuario?.roles)">
+        {{ rol }}
+      </li>
+    </ul>
   </mat-card-content>
 </mat-card>
