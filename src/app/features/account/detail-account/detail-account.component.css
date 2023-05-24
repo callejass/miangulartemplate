@@ -1,0 +1,14 @@
+.mi-card {
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .header-image {
+    
+    background-size: cover;
+  }
+  
+  mat-chip {
+    margin: 5px;
+  }
+  

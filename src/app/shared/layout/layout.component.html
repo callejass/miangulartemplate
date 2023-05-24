@@ -86,8 +86,8 @@
           <p mat-line> Account </p>
         </a>
 
-        <a mat-list-item [routerLink]="['/icons']" routerLinkActive="active">
-          <mat-icon mat-list-icon (click)="logOut()">
+        <a mat-list-item (click)="logOut()" >
+          <mat-icon mat-list-icon >
             toll
           </mat-icon>
           <p mat-line> Log-out </p>
@@ -98,7 +98,7 @@
         <mat-divider></mat-divider>
 
         
-        <!-- <h3 mat-subheader>Temas</h3>        
+        <h3 mat-subheader>Temas</h3>        
         <ng-container *ngFor="let tema of ['theme1','theme2']">
           <a mat-list-item  (click)="changeTheme(tema)"> 
             <mat-icon mat-list-icon>
@@ -106,7 +106,7 @@
             </mat-icon>
             <p mat-line> {{tema}} </p>  
           </a>
-        </ng-container>           -->
+        </ng-container>          
         <mat-divider></mat-divider>
         <h3 mat-subheader>Resources</h3>
 

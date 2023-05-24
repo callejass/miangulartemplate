@@ -1,16 +1,19 @@
 <p>detail-account works!</p>
-<mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ miUsuario?.nombre }}</mat-card-title>
-      <mat-card-subtitle>{{ miUsuario?.email }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p><strong>Fecha de Nacimiento:</strong> {{ miUsuario?.fechaNacimiento }}</p>
-      <p><strong>Provincia:</strong> {{ miUsuario?.provincia }}</p>
-      <p><strong>Roles:</strong></p>
-      <ul>
-        <li *ngFor="let rol of miUsuario?.roles">{{ rol }}</li>
-      </ul>
-    </mat-card-content>
-  </mat-card>
+<mat-card class="mi-card">
+  <mat-card-header>
+    <div mat-card-avatar class="header-image"></div>
+    <mat-card-title>{{ miUsuario?.nombre }}</mat-card-title>
+    <mat-card-subtitle>{{ miUsuario?.email }}</mat-card-subtitle>
+  </mat-card-header>
+
   
+
+  <mat-card-content>
+    <p><strong>Fecha de Nacimiento:</strong> {{ miUsuario?.fechaNacimiento  }}</p>
+    <p><strong>Provincia:</strong> {{ miUsuario?.provincia }}</p>
+    <p><strong>Roles:</strong></p>
+    <mat-chip-list aria-label="Fish selection">
+      <mat-chip *ngFor="let rol of miUsuario?.roles">{{ rol }}</mat-chip>
+    </mat-chip-list>
+  </mat-card-content>
+</mat-card>

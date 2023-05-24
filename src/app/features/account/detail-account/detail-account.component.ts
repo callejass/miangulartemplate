@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../users/models/user.model';
+import { Provincia, Rol, User } from '../../users/models/user.model';
 import { MiAuthService } from 'src/app/core/services/mi-auth.service';
+import { TablasMaestrasService } from 'src/app/core/services/tablas-maestras.service';
 
 @Component({
   selector: 'app-detail-account',
@@ -9,10 +10,20 @@ import { MiAuthService } from 'src/app/core/services/mi-auth.service';
 })
 export class DetailAccountComponent implements OnInit {
   miUsuario!: User|null;
-  constructor(private authService:MiAuthService) { }
+  listaRoles: Rol[] = [];
+listaProvincias: Provincia[] = [];
+  constructor(private authService:MiAuthService,
+    private tablasMaestras: TablasMaestrasService ) { }
 
   ngOnInit(): void {
-    this.miUsuario=this.authService.miGetUsuario()
+    this.miUsuario=this.authService.miGetUsuario();
+    
+  }
+  getNombreRoles(codigosRoles: string[]): string[] {
+    return codigosRoles.map((codigo) => {
+      const rol = this.listaRoles.find((r) => r.codigo === codigo);
+      return rol ? rol.nombre : "";
+    });
   }
 
 }
