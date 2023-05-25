@@ -29,7 +29,7 @@ export class UsersApiService implements UsersEndpointService {
       .post(url, user)
       .pipe(
         map((respuesta:any) => {
-          console.log(respuesta);
+          
           return respuesta.user;
         })
       )
