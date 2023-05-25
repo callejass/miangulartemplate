@@ -3,8 +3,9 @@ import { UsersService } from "../../services/users.service";
 import { Rol, Provincia, User } from "../../models/user.model";
 import { MatDialog } from "@angular/material/dialog";
 import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
-import { filter, switchMap, tap } from "rxjs";
+import { filter, map, switchMap, tap } from "rxjs";
 import { TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
+import { HttpClient } from "@angular/common/http";
 @Component({
   selector: "app-users-list",
   templateUrl: "./users-list.component.html",
@@ -15,7 +16,9 @@ export class UsersListComponent implements OnInit {
   usersList: User[] = [];
   listaRoles: Rol[] = [];
   listaProvincias: Provincia[] = [];
+  respuesta1:string="";
   constructor(
+    private http:HttpClient,
     private gui: GuiUtilsService,
     private usersService: UsersService,
     private dialogo: MatDialog,
@@ -33,7 +36,9 @@ export class UsersListComponent implements OnInit {
         this.listaProvincias = provincia;
        
       });
+      
   }
+  
 
   getNombreRoles(codigosRoles: string[]): string[] {
     return codigosRoles.map((codigo) => {
@@ -48,8 +53,9 @@ export class UsersListComponent implements OnInit {
   getLista(): void {
     this.usersService.getAll().subscribe({
       next: (users: User[]) => {
+        console.log(users)
         this.usersList = users;
-        
+        console.log(this.usersList)
       },
     });
   }

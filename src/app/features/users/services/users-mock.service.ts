@@ -10,7 +10,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UsersMockService implements UsersEndpointService{
 UserList:User[]=USERS;
-  
+  constructor(private http:HttpClient){}
+
 /**
  * Este metodo devuelve la lista de usuarios Mock
  * @returns {Observable<User[]>}
@@ -53,5 +54,7 @@ UserList:User[]=USERS;
     this.UserList.push(user);
     return of(user)
   }
+
+  
   }
 

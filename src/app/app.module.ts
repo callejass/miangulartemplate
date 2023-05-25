@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { UsersService } from './features/users/services/users.service';
 import { UsersEndpointService } from './features/users/services/users-endpoint.service';
 import { UsersMockService } from './features/users/services/users-mock.service';
+import { UsersApiService } from './features/users/services/users-api.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { UsersMockService } from './features/users/services/users-mock.service';
       serverLogLevel: environment.serverLogLevel
     })
   ],
-  providers:[UsersService,{provide:UsersEndpointService, useClass:UsersMockService},
+  providers:[UsersService,{provide:UsersEndpointService, useClass:UsersApiService},
     
     
   
