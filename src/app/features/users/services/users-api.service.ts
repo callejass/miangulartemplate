@@ -11,7 +11,14 @@ import { HttpClient } from "@angular/common/http";
 export class UsersApiService implements UsersEndpointService {
   constructor(private http: HttpClient) {}
   delete(id: string): Observable<any[]> {
-    throw new Error("Method not implemented.");
+    const url=`http://localhost:3000/users/${id}`;
+    return this.http.delete(url).pipe(
+      map((respuesta:any)=>{
+        console.log(respuesta);
+        return respuesta.user
+      })
+    )
+    
   }
   update(user: User): Observable<any> {
     const url=`http://localhost:3000/users/${user.id}`;
