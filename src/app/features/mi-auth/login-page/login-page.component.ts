@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MiAuthService } from "src/app/core/services/mi-auth.service";
+import { SessionService } from "src/app/core/services/session.service";
 
 @Component({
   selector: "app-login-page",
@@ -10,7 +11,9 @@ import { MiAuthService } from "src/app/core/services/mi-auth.service";
 export class LoginPageComponent {
   formularioLogin: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: MiAuthService) {
+  constructor(private fb: FormBuilder, 
+    private session: SessionService, 
+    private authService: MiAuthService) {
     this.formularioLogin = this.fb.group({
       nombreUsuario: ["", Validators.required],
       password: ["", Validators.required],
@@ -20,6 +23,10 @@ export class LoginPageComponent {
   enviarFormulario(): void {
     const nombre = this.formularioLogin.get("nombreUsuario")?.value;
     const password = this.formularioLogin.get("password")?.value;
+
+    
+
+
     this.authService.miLogin(nombre, password).subscribe();
   }
 }

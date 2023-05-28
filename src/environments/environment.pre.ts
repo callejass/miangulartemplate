@@ -10,5 +10,5 @@ export const environment = {
   logLevel: NgxLoggerLevel.TRACE,
   serverLogLevel: NgxLoggerLevel.OFF,
   apiUrl:'/assets/data/mocks',
-  piticlin: 'adfadfasdfasdf'
+  piticlin: 'Aplicación en preproducción'
 };

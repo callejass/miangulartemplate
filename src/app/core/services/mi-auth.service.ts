@@ -3,12 +3,28 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Observable, find, map } from "rxjs";
 import { User } from "src/app/features/users/models/user.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class MiAuthService {
   constructor(private http: HttpClient, private router:Router) {}
+
+  sergioLogin(userId: string, password: string): Observable<string> {
+    const url: string = environment.apiUrl + '/login';
+    return this.http.post(url,{user: userId, password: password}).pipe(
+      map((r: any) => {
+        if(r.ok){
+          return r.token;
+        } else { 
+          return null;
+        }
+      })
+    )
+  }
+
+
   usuarioAutenticado!: User | null;
   miLogin(nombre: string, password: string): Observable<User|null>{
     return this.http.get<User[]>('assets/data/mocks/users-mock.json').pipe(
