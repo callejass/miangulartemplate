@@ -32,7 +32,7 @@ import { UsersApiService } from './features/users/services/users-api.service';
       serverLogLevel: environment.serverLogLevel
     })
   ],
-  providers:[UsersService,{provide:UsersEndpointService, useClass:UsersMockService},
+  providers:[UsersService,{provide:UsersEndpointService, useClass:UsersApiService},
     
     
   
