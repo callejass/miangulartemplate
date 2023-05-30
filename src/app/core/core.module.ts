@@ -29,11 +29,11 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     //   useClass: SpinnerInterceptor,
     //   multi: true
     // },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthInterceptor,
+    //   multi: true
+    // },
     {provide:HTTP_INTERCEPTORS,
       useClass:CopiaInterceptor,
       multi:true

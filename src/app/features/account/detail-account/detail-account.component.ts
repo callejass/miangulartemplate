@@ -17,7 +17,7 @@ listaProvincias: Provincia[] = [];
 
   ngOnInit(): void {
     
-    this.miUsuario=this.authService.miGetUsuario()!;
+    // this.miUsuario=this.authService.miGetUsuario()!;
     this.tablasMaestras.getData<Rol>('roles').subscribe((roles)=>{
       this.listaRoles=roles;
     });

@@ -18,7 +18,7 @@ import { User } from "src/app/features/users/models/user.model";
   templateUrl: "./layout.component.html",
   styleUrls: ["./layout.component.css"],
 })
-export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
+export class LayoutComponent implements  OnDestroy, AfterViewInit {
   public usuarioAutenticado:any;
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
@@ -39,12 +39,12 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // tslint:disable-next-line: deprecation
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
-  ngOnInit(): void {
-    this.usuarioAutenticado= this.authService.miGetUsuario()
-  }
-  logOut() {
-    this.authService.miLogOut();
-  }
+  // ngOnInit(): void {
+  //   this.usuarioAutenticado= this.authService.miGetUsuario()
+  // }
+  // logOut() {
+  //   this.authService.miLogOut();
+  // }
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation
     this.mobileQuery.removeListener(this._mobileQueryListener);
