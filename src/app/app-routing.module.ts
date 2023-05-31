@@ -25,34 +25,34 @@ const appRoutes: Routes = [
   {
     path: 'customers',
     loadChildren: () => import('./features/customers/customers.module').then(m => m.CustomersModule),
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
   },
   {
     path: 'users',
     loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
   },
   {
     path:'account',
     loadChildren:()=>import('./features/account/account.module').then(m=>m.AccountModule),
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
   },
   {
     path: 'icons',
     loadChildren: () => import('./features/icons/icons.module').then(m => m.IconsModule),
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
     
   },
   {
     path: 'typography',
     loadChildren: () => import('./features/typography/typography.module').then(m => m.TypographyModule),
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
     
   },
   {
     path: 'about',
     loadChildren: () => import('./features/about/about.module').then(m => m.AboutModule),
-    // canActivate:[AuthGuard]
+    canActivate:[AuthGuard]
     
   },
   {

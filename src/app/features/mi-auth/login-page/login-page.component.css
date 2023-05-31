@@ -10,4 +10,8 @@
     flex-direction: column;
     width: 300px; 
   }
+  .error {
+    color: red;
+    margin: 10px 0;
+  }
   

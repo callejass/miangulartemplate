@@ -16,7 +16,13 @@
       <mat-error *ngIf="formularioLogin.get('password')?.touched && formularioLogin.get('password')?.invalid">
         Por favor, introduce una contraseña válida.
       </mat-error>
+      
+
+      
     </mat-form-field>
+    <div *ngIf="errorMensaje" class="error">
+      {{errorMensaje}}
+    </div>
 
     <button mat-raised-button color="primary" type="submit">Enviar</button>
 

@@ -50,7 +50,7 @@ export class MiAuthService {
  *
  * Como estamos en pruebas, se genera el token en el lado del cliente.Cuando todo funcione intentaré pasarlo al backend
  */
-  miLogin(nombre: string, password: string):Observable<string|null> {
+  miLogin(nombre: string, password: string):Observable<string> {
     return this.http.get<any[]>('assets/data/miUsuario.json').pipe(
       map((usuarios)=>{
         const usuario=usuarios.find(
@@ -62,15 +62,18 @@ export class MiAuthService {
           this._token=token;
           this._tokenSubject.next(token)
           console.log(token);
-
+          this.router.navigate(['/dashboard'])
           return token
         }
         else {
-          return null
+          throw new Error('Usuario o contraseña incorrecta');
         }
       })
     )
   }
+
+
+
   
   //aqui establezco un get para tener acceso desde  sessionService al token.
   //Nota:No se me ocurre otra forma.¿y si this._token fura un observable directamente? TODO
