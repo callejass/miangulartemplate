@@ -10,8 +10,8 @@ export class AdminGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const token=localStorage.getItem('token');
-    const admin=localStorage.getItem('administrador');
+    const token=sessionStorage.getItem('token');
+    const admin=sessionStorage.getItem('administrador');
     if ((token) && (admin)){
     
       return true;

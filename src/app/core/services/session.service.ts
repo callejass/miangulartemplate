@@ -95,12 +95,12 @@ export class SessionService {
     return roles ?roles.some(r=>r===rol):false;
   }
 //6.- Un método initialize() que compruebe si hay un token en el storage y si lo hay realice todo el proceso como si el token lo hubiesemos obtenido mediante el login
-  initialize(){
-    const mitoken=sessionStorage.getItem('authToken');
-    if (mitoken){
-      this.token=mitoken
-    }
-  }
+  // initialize(){
+  //   const mitoken=sessionStorage.getItem('authToken');
+  //   if (mitoken){
+  //     this.token=mitoken
+  //   }
+  // }
 
 
 

@@ -29,6 +29,9 @@ export class LoginPageComponent {
 
     this.authService.miLogin(nombre, password).subscribe();
   }
+
+
+
 }
 // login() {
 //   const email = this.loginForm.get('email')?.value;

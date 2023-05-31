@@ -12,6 +12,7 @@ import { GlobalErrorHandler } from './services/globar-error.handler';
 
 import { CopiaInterceptor } from './interceptors/copia.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   declarations: [
   ],
   providers: [
-    // AuthGuard,
+    AuthGuard,
     // AdminGuard,
     MediaMatcher,
     // {

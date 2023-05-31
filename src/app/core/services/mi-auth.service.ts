@@ -12,6 +12,7 @@ import * as jwt from 'jsonwebtoken'
   providedIn: "root",
 })
 export class MiAuthService {
+  private _tokenSubject=new BehaviorSubject<string|null>(null);
   private _token: string|null=null;
   constructor(private http: HttpClient, private router:Router ) {}
 
@@ -50,14 +51,16 @@ export class MiAuthService {
  * Como estamos en pruebas, se genera el token en el lado del cliente.Cuando todo funcione intentaré pasarlo al backend
  */
   miLogin(nombre: string, password: string):Observable<string|null> {
-    return this.http.get<any[]>('assets/data/miUsuario.jason').pipe(
+    return this.http.get<any[]>('assets/data/miUsuario.json').pipe(
       map((usuarios)=>{
         const usuario=usuarios.find(
           (u)=> u.nombre===nombre && u.password===password
         );
         if (usuario){
-          const token=jwt.sign([usuario.id,usuario.nombre,usuario.correo,usuario.roles],'laclave');
+          const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJub21icmUiOiJTZXJnaW8iLCJjb3JyZW8iOiJzZXJnaW9AZ21haWwuY29tIiwicm9sZXMiOlsiYWRtaW5pc3RyYWRvciIsImRpcmVjdG9yIl0sImlhdCI6MTUxNjIzOTAyMn0.rrS27yZHqDa5oo2mNd2g5QKVDqvK-ebt0DVlMnzTlXs'
+          // jwt.sign([usuario.id,usuario.nombre,usuario.correo,usuario.roles],'laclave');
           this._token=token;
+          this._tokenSubject.next(token)
           console.log(token);
 
           return token
@@ -72,6 +75,6 @@ export class MiAuthService {
   //aqui establezco un get para tener acceso desde  sessionService al token.
   //Nota:No se me ocurre otra forma.¿y si this._token fura un observable directamente? TODO
   get authToken():Observable<string|null>{
-    return of(this._token);
+    return this._tokenSubject.asObservable();
   }
 }
