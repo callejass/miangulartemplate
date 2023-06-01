@@ -14,6 +14,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { MiDialogoComponent } from './mi-dialogo/mi-dialogo.component';
 import { MiSnackbarComponent } from './mi-snackbar/mi-snackbar.component';
 import { VistaPeticionesComponent } from './vista-peticiones/vista-peticiones.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import { VistaPeticionesComponent } from './vista-peticiones/vista-peticiones.co
         LayoutComponent,
         MiDialogoComponent,
         MiSnackbarComponent,
-        VistaPeticionesComponent
+        VistaPeticionesComponent,
+        SpinnerComponent
     ],
     exports: [
         FormsModule,

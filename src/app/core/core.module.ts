@@ -13,6 +13,7 @@ import { GlobalErrorHandler } from './services/globar-error.handler';
 import { CopiaInterceptor } from './interceptors/copia.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 @NgModule({
   imports: [
@@ -23,13 +24,13 @@ import { AuthGuard } from './guards/auth.guard';
   ],
   providers: [
     AuthGuard,
-    // AdminGuard,
+    AdminGuard,
     MediaMatcher,
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: SpinnerInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true
+    },
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: AuthInterceptor,

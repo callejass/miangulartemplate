@@ -5,6 +5,7 @@ import jwtDecode from "jwt-decode";
 import { miApplicationUser } from "src/app/features/users/models/aplication.users";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import {  Router } from "@angular/router";
+//En lugar de AplicationUser, uso miAplicationUser. La tuya la usaré para intentar el token desde el backend
 export interface ApplicationUser {
   id: string;
   displayName: string;
@@ -39,13 +40,13 @@ export class SessionService {
   private _tokenActual: string | null = null;
   private _currentUser: miApplicationUser | null=null
 
-//DEfino una tipo, que puede tener dos valores 'session' o 'local'
+//Defino una variable que puede tener dos valores 'session' o 'local'
 private storageTipo:'session'|'local'='local';
 /**Aqui establezco un metodo privado, que me va a devolver sessionStorage o localStorage, dependiendo
 * del valor de mi variable storageTipo
 **/
 private getStorage(){
-  return this.storageTipo==='session' ? sessionStorage:localStorage
+  return this.storageTipo==='session' ? sessionStorage:localStorage;
 }
 
   //Aquí llamo a authService para obtener el token
