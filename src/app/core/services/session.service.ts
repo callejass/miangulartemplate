@@ -39,7 +39,14 @@ export class SessionService {
   private _tokenActual: string | null = null;
   private _currentUser: miApplicationUser | null=null
 
-
+//DEfino una tipo, que puede tener dos valores 'session' o 'local'
+private storageTipo:'session'|'local'='local';
+/**Aqui establezco un metodo privado, que me va a devolver sessionStorage o localStorage, dependiendo
+* del valor de mi variable storageTipo
+**/
+private getStorage(){
+  return this.storageTipo==='session' ? sessionStorage:localStorage
+}
 
   //Aquí llamo a authService para obtener el token
   constructor(private authService: MiAuthService,
@@ -61,19 +68,16 @@ export class SessionService {
  *
  * Si se pasa un token válido (una cadena de texto), este método:
  * a) Almacena el token en el session storage del navegador. De esta manera, el token queda accesible para futuras sesiones.
- * b) Decodifica el token utilizando la librería jwtDecode para obtener los claims necesarios para crear un objeto ApplicationUser. Este objeto incluye id, nombre, correo y roles del usuario autenticado.
- * c) Almacena el objeto ApplicationUser en el session storage del navegador, permitiendo un acceso rápido a los datos del usuario en sesiones futuras.
- * d) Actualiza la propiedad interna '_currentUser' con el nuevo objeto ApplicationUser y emite este nuevo valor a través del subject '_currentUser$' para que cualquier suscriptor sea notificado del cambio de usuario.
+ * b) Decodifica el token utilizando jwtDecode para obtener los claims necesarios para crear un objeto miApplicationUser. 
+ * c) Almacena el objeto miApplicationUser en el session storage o en el localStorage del navegador(dependiendo del valor de storageTipo).
+ * d) Actualiza la propiedad interna '_currentUser' con el nuevo objeto miApplicationUser y emite este nuevo valor a través del subject '_currentUser$' para que cualquier suscriptor sea notificado del cambio de usuario.
  *
- * Este método no realiza ninguna acción si se pasa null en lugar de un token.
- *
- * Es útil en los casos en los que se ha obtenido un nuevo token, por ejemplo, después de que un usuario se autentique o renueve su sesión.
  */
   private set token(token: string | null) {
     this._tokenActual = token;
     if (token) {
       // a) Almacenarlo en el session storage o en el local storage (lo dejo a tu elección, pero intenta hacerlo de tal forma que se pueda cambiar facil)
-      sessionStorage.setItem("authToken", token);
+      this.getStorage().setItem("authToken", token);
       //b) Decodificar el token para sacar los claims necesarios para crear un ApplicationUser
       const decodedToken: any = jwtDecode(token);
       const user: miApplicationUser = {
@@ -83,7 +87,7 @@ export class SessionService {
         roles: decodedToken.roles,
       };
       //c) Almacenar este ApplicationUser también en session storage o local storage
-      sessionStorage.setItem("currentUser", JSON.stringify(user));
+      this.getStorage().setItem("currentUser", JSON.stringify(user));
       this._currentUser = user;
       //Emito el nuevo usuario a traves del subject
       this._currentUser$.next(user);
@@ -99,8 +103,9 @@ export class SessionService {
   get currentUser(): miApplicationUser | null {
     return this._currentUser;
   }
-  //Propiedad para informar al mundo del usuario que hay en la session
-  //Al proporcionar el  private currentUser$ como observable a través del get me aseguro que solo se va a poder manipular dentro del sessionService
+  /**Propiedad para informar al mundo del usuario que hay en la session
+  *Al proporcionar el  private currentUser$ como observable a través del get me aseguro que solo se va a poder manipular dentro del sessionService
+  **/
   get currentUser$(): Observable<miApplicationUser | null> {
     return this._currentUser$.asObservable();
   }
@@ -119,11 +124,9 @@ export class SessionService {
  *
  * Primero, obtiene los roles del usuario actual. Si el usuario tiene roles, 
  * utiliza el método 'some' para comprobar si alguno de los roles del usuario coincide 
- * con el rol proporcionado. Si se encuentra una coincidencia, el método devuelve 'true'. 
- * Si no se encuentra ninguna coincidencia, o si el usuario no tiene roles, el método devuelve 'false'.
+ * con el rol proporcionado. Si se encuentra, el método devuelve 'true'. 
+ * Si no se encuentra  o si el usuario no tiene roles, el método devuelve 'false'.
  *
- * Este método es útil para la implementación de la seguridad basada en roles en la aplicación, 
- * permitiendo mostrar u ocultar características o funcionalidades en función del rol del usuario.
  */
   isInRole(rol: string): boolean {
     const roles: string[] | undefined = this._currentUser?.roles;
@@ -137,18 +140,15 @@ export class SessionService {
   /**
  * Este método inicializa la sesión del usuario. 
  * 
- * Primero, busca un token de autenticación en el sessionStorage. Si encuentra el token de autenticacion, 
+ * Primero, busca un token de autenticación en el sessionStorage o en el localStorage. Si encuentra el token de autenticacion, 
  * lo establece en el servicio de sesión y navega hacia el dashboard.
  * 
- * De esta manera, si un usuario ya autenticado recarga la página 
- *  no tendrá que pasar por el proceso de inicio de sesión de nuevo; 
- * en su lugar, su sesión será restaurada automáticamente.
- * 
+  
  * Nota: Este método se llama al inicio de la aplicación para asegurarse de que cualquier 
  * información de la sesión existente se restaure de inmediato.
  */
   initialize() {
-    const mitoken = sessionStorage.getItem('authToken');
+    const mitoken = this.getStorage().getItem('authToken');
     
     if (mitoken ) {
       this.token = mitoken;
@@ -156,9 +156,12 @@ export class SessionService {
       
     }
   }
+  /**
+   * Este metodo elimina los tokens y lleva al usuario a la pagina de login
+   */
   logOut(){
-    sessionStorage.removeItem('authToken');
-    sessionStorage.removeItem('currentUser');
+    this.getStorage().removeItem('authToken');
+    this.getStorage().removeItem('currentUser');
     this.router.navigate(['/login'])
     
   }

@@ -47,9 +47,10 @@ export class MiAuthService {
  * Luego busca un usuario en ese array que coincida con el nombre y la contraseña proporcionados.
  *
  * Si encuentra un usuario que coincida, genera un JWT utilizando jsonwebtoken y lo retorna.
- * Si no encuentra un usuario que coincida, retorna `null`.
+ * Si no encuentra un usuario que coincida, arroja un error.
  *
- * Como estamos en pruebas, se genera el token en el lado del cliente.Cuando todo funcione intentaré pasarlo al backend
+ * Como estamos en pruebas, se genera el token en el lado del cliente.Cuando todo funcione intentaré pasarlo al backend.
+ * El token no se genera, porque no puedo generarlo en angular. creo dos con jwt.io y dependiendo del usuario que se hay identificado, se establece uno u otro.
  */
   miLogin(nombre: string, password: string):Observable<string> {
     return this.http.get<any[]>('assets/data/miUsuario.json').pipe(
@@ -69,10 +70,10 @@ export class MiAuthService {
           
           
           this._token=this.elegirToken;
-          this._tokenSubject.next(this.elegirToken)
+          this._tokenSubject.next(this._token)
           console.log(this.elegirToken);
           this.router.navigate(['/dashboard'])
-          return this.elegirToken
+          return this._token
         }
         else {
           throw new Error('Usuario o contraseña incorrecta');
