@@ -59,4 +59,8 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   changeTheme(tema: string): void {
     this.temaSeleccionado = tema;
   }
+
+  logOut(){
+    this.sessionService.logOut();
+  }
 }

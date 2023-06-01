@@ -4,6 +4,8 @@ import { Title } from '@angular/platform-browser';
 import { NGXLogger } from 'ngx-logger';
 import { User } from '../../users/models/user.model';
 import { MiAuthService } from 'src/app/core/services/mi-auth.service';
+import { SessionService } from 'src/app/core/services/session.service';
+import { miApplicationUser } from '../../users/models/aplication.users';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -11,17 +13,24 @@ import { MiAuthService } from 'src/app/core/services/mi-auth.service';
   styleUrls: ['./dashboard-home.component.css']
 })
 export class DashboardHomeComponent implements OnInit {
-  usuarioActual!: User | null;
+  usuarioActual!: miApplicationUser| null;
 
   constructor(private notificationService: NotificationService,
     
     private titleService: Title,
     private logger: NGXLogger,
-    private authService:MiAuthService) {
+    private sessionService:SessionService) {
   }
 
   ngOnInit() {
-    // this.usuarioActual=this.authService.miGetUsuario()
+    // this.usuarioActual=this.sessionService.currentUser
+    this.sessionService.currentUser$.subscribe(
+      (usuario)=>{
+        this.usuarioActual=usuario
+      }
+    )
+      
+    
     this.titleService.setTitle('angular-material-template - Dashboard');
     this.logger.log('Dashboard loaded');
 

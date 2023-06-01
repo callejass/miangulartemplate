@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Provincia, Rol, User } from '../../users/models/user.model';
 import { MiAuthService } from 'src/app/core/services/mi-auth.service';
 import { TablasMaestrasService } from 'src/app/core/services/tablas-maestras.service';
+import { miApplicationUser } from '../../users/models/aplication.users';
+import { SessionService } from 'src/app/core/services/session.service';
 
 @Component({
   selector: 'app-detail-account',
@@ -9,14 +11,19 @@ import { TablasMaestrasService } from 'src/app/core/services/tablas-maestras.ser
   styleUrls: ['./detail-account.component.css']
 })
 export class DetailAccountComponent implements OnInit {
-  miUsuario: User|null=null;
+  miUsuario: miApplicationUser|null=null;
   listaRoles: Rol[] = [];
 listaProvincias: Provincia[] = [];
-  constructor(private authService:MiAuthService,
+  constructor(private sessionService:SessionService,
     private tablasMaestras: TablasMaestrasService ) { }
 
   ngOnInit(): void {
-    
+    this.sessionService.currentUser$.subscribe(
+      (usuario)=>{
+        this.miUsuario=usuario;
+        console.log(this.miUsuario);
+      }
+    )
     // this.miUsuario=this.authService.miGetUsuario()!;
     this.tablasMaestras.getData<Rol>('roles').subscribe((roles)=>{
       this.listaRoles=roles;

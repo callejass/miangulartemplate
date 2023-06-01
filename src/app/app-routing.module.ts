@@ -30,7 +30,7 @@ const appRoutes: Routes = [
   {
     path: 'users',
     loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
-    canActivate:[AuthGuard]
+    canActivate:[AdminGuard]
   },
   {
     path:'account',

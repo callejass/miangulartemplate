@@ -15,13 +15,15 @@ export class AuthGuard implements CanActivate {
 
     const token = this.sessionSErvice.tokenActual
   
-    if (token) {
+    if (this.sessionSErvice.isLogged===true) {
       // Si existe un token, permitir la activación de la ruta
-      console.log(token)
+      console.log(token);
+      console.log(this.sessionSErvice.isLogged)
       return true;
     } else {
       // Si no existe un token, no permitir la activación de la ruta
       // Y redirigir al usuario a la página de inicio de sesión
+      console.log(this.sessionSErvice.isLogged)
       this.router.navigate(['/login']);
       return false;
     }

@@ -14,6 +14,7 @@ import * as jwt from 'jsonwebtoken'
 export class MiAuthService {
   private _tokenSubject=new BehaviorSubject<string|null>(null);
   private _token: string|null=null;
+  elegirToken:string|null=null;
   constructor(private http: HttpClient, private router:Router ) {}
 
   sergioLogin(userId: string, password: string): Observable<string> {
@@ -57,13 +58,21 @@ export class MiAuthService {
           (u)=> u.nombre===nombre && u.password===password
         );
         if (usuario){
-          const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJub21icmUiOiJTZXJnaW8iLCJjb3JyZW8iOiJzZXJnaW9AZ21haWwuY29tIiwicm9sZXMiOlsiYWRtaW5pc3RyYWRvciIsImRpcmVjdG9yIl0sImlhdCI6MTUxNjIzOTAyMn0.rrS27yZHqDa5oo2mNd2g5QKVDqvK-ebt0DVlMnzTlXs'
-          // jwt.sign([usuario.id,usuario.nombre,usuario.correo,usuario.roles],'laclave');
-          this._token=token;
-          this._tokenSubject.next(token)
-          console.log(token);
+          if (usuario.nombre==='Sergio'){
+
+            this.elegirToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJub21icmUiOiJTZXJnaW8iLCJjb3JyZW8iOiJzZXJnaW9AZ21haWwuY29tIiwicm9sZXMiOlsiYWRtaW5pc3RyYWRvciIsImRpcmVjdG9yIl0sImlhdCI6MTUxNjIzOTAyMn0.rrS27yZHqDa5oo2mNd2g5QKVDqvK-ebt0DVlMnzTlXs'
+          } else{
+            this.elegirToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OTAiLCJub21icmUiOiJMb2xpIiwiY29ycmVvIjoibG9saUBnbWFpbC5jb20iLCJyb2xlcyI6WyJVc3VhcmlvIiwiZGlyZWN0b3IiXSwiaWF0IjoxNTE2MjM5MDIyfQ.MrXoYOMCACkdoOnUI8El-RRD98-MD288NMk-KpmlEyU'
+
+          }
+
+          
+          
+          this._token=this.elegirToken;
+          this._tokenSubject.next(this.elegirToken)
+          console.log(this.elegirToken);
           this.router.navigate(['/dashboard'])
-          return token
+          return this.elegirToken
         }
         else {
           throw new Error('Usuario o contraseña incorrecta');
