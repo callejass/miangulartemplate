@@ -88,7 +88,7 @@
 
         <a mat-list-item (click)="logOut()" >
           <mat-icon mat-list-icon >
-            toll
+            logout
           </mat-icon>
           <p mat-line> Log-out </p>
         </a>
@@ -146,8 +146,10 @@
   <div class="main-content">
     <div class="content-wrapper">
       <div class="progress-bar-container">
+        
+
         <mat-progress-bar color="accent" mode="indeterminate" *ngIf="spinnerService.visibility | async"></mat-progress-bar>
-        <!-- <mat-spinner class="spinner" [diameter]="50" *ngIf="showSpinner"></mat-spinner> -->
+        <mat-spinner class="spinner" [diameter]="50" *ngIf="showSpinner"></mat-spinner>
       </div>
       <router-outlet></router-outlet>
     </div>

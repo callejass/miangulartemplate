@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, Observable, find, map, of } from "rxjs";
+import { BehaviorSubject, Observable, delay, find, map, of } from "rxjs";
 import { miApplicationUser } from "src/app/features/users/models/aplication.users";
 import { User } from "src/app/features/users/models/user.model";
 import { environment } from "src/environments/environment";
@@ -54,6 +54,7 @@ export class MiAuthService {
  */
   miLogin(nombre: string, password: string):Observable<string> {
     return this.http.get<any[]>('assets/data/miUsuario.json').pipe(
+      
       map((usuarios)=>{
         const usuario=usuarios.find(
           (u)=> u.nombre===nombre && u.password===password
