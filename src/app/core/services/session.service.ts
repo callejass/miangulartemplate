@@ -142,19 +142,22 @@ private getStorage(){
  * Este método inicializa la sesión del usuario. 
  * 
  * Primero, busca un token de autenticación en el sessionStorage o en el localStorage. Si encuentra el token de autenticacion, 
- * lo establece en el servicio de sesión y navega hacia el dashboard.
+ * lo establece en el servicio de sesión y devuelve true. Si no encuentra token devuelve false
  * 
   
  * Nota: Este método se llama al inicio de la aplicación para asegurarse de que cualquier 
  * información de la sesión existente se restaure de inmediato.
  */
-  initialize() {
+  initialize(): Observable<boolean> {
     const mitoken = this.getStorage().getItem('authToken');
     
     if (mitoken ) {
       this.token = mitoken;
-      this.router.navigate(['/dashboard'])
+      return of(true);
+      // this.router.navigate(['/dashboard'])
       
+    } else {
+      return of(false);
     }
   }
   /**

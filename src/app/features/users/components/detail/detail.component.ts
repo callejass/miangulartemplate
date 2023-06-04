@@ -26,7 +26,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     provincia: "",
     roles: [],
   };
-  userForm: FormGroup;
+  userForm!: FormGroup;
   userId: string = "";
   paramMapSubscription: Subscription = new Subscription();
   editMode: boolean = false;
@@ -37,10 +37,14 @@ export class DetailComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private gui: GuiUtilsService
   ) {
-    this.userForm = this.createUserForm();
+   
   }
 
   ngOnInit(): void {
+
+    this.userForm = this.createUserForm();
+
+
     this.tablasMaestras
       .getData<Provincia>("provincias")
       .subscribe((provincias) => {

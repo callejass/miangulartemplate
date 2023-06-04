@@ -42,7 +42,10 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
   ngOnInit(): void {
-    this.usuarioAutenticado= this.sessionService.currentUser
+    this.usuarioAutenticado= this.sessionService.currentUser;
+
+    this.spinnerService.visibility$.subscribe((mostrar: boolean) => this.showSpinner=mostrar);
+
   }
   // logOut() {
   //   this.authService.miLogOut();
