@@ -29,7 +29,8 @@ export class LoginPageComponent {
     
 
 
-    this.authService.miLogin(nombre, password).subscribe({
+    this.authService.miLogin(nombre, password).    
+    subscribe({
       error:error=>{
         console.log(error);
         this.errorMensaje=error.message;
