@@ -33,7 +33,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class CustomerListComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-
+titulo:string="Customers"
   @ViewChild(MatSort, { static: true })
   sort: MatSort = new MatSort;
 

@@ -5,11 +5,10 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './theme-page.component.html',
   styleUrls: ['./theme-page.component.css']
 })
-export class ThemePageComponent implements OnInit {
+export class ThemePageComponent  {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  titulo:string='Demo'
 
 }

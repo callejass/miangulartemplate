@@ -22,15 +22,16 @@ body {
   font-size: 14px;
 }
 
-.full-width {
-  width: 100%;
-}
+
 
 .container {
-  margin-top: 10px;
-  margin-bottom: 10px;
+ //modificado por mi
+  height: 100%;
 }
-
+.mat-card {
+  
+  height: 100%;
+}
 .spinner {
   left: 49%;
   position: fixed !important;
@@ -184,3 +185,11 @@ p .mat-icon {
   // .mat-mdc-select-panel{
   //   background-color: rgba(90, 107, 96, 1);
   // }
+  /* Estilos para las páginas interiores */
+.app-content-inner {
+  margin: 20px; /* Agrega márgenes a los lados y arriba/abajo */
+  //Este va en el lyout
+}
+.full-width {
+  width: 100%;
+}

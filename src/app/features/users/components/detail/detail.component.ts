@@ -15,6 +15,8 @@ import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
   styleUrls: ["./detail.component.css"],
 })
 export class DetailComponent implements OnInit, OnDestroy {
+  
+  titulo:string="Nuevo usuario"
   listaRoles: Rol[] = [];
   listaProvincias: Provincia[] = [];
   mode: string | null | undefined;
@@ -36,14 +38,10 @@ export class DetailComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private fb: FormBuilder,
     private gui: GuiUtilsService
-  ) {
-   
-  }
+  ) {}
 
   ngOnInit(): void {
-
     this.userForm = this.createUserForm();
-
 
     this.tablasMaestras
       .getData<Provincia>("provincias")
@@ -60,9 +58,11 @@ export class DetailComponent implements OnInit, OnDestroy {
       // Deshabilitar el campo 'id' si el modo es 'edicion'
       if (this.mode === "edicion") {
         this.userForm.get("id")?.disable();
+        this.titulo="Editar usuario"
       }
       if (this.mode === "vista") {
         this.userForm.disable();
+        this.titulo="Detalle de usuario"
       }
     }
   }
@@ -171,32 +171,12 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.establecerValores();
-    this.gui
-      .confirm$("¿Desea guardar los cambios?")
-      .pipe(
-        filter((si) => si),
-        switchMap(() => {
-          if (this.mode === "edicion") {
-            return this.usersService.update(this.user);
-          } else {
-            return this.usersService.create(this.user);
-          }
-        }),
-        filter((r: any) => {
-          if (!r.ok) {
-            this.gui.showError(r.mensaje);
-          }
-          return r.ok;
-        }),
-        tap((r: { ok: boolean; mensaje: string; data: any }) =>
-          this.gui.mostrarSnackbar(`${r.mensaje}`)
-        )
-      )
-      .subscribe((r: { ok: boolean; mensaje: string; data: any }) => {
-        if (r.ok) {
-          this.user = r.data;
-        }
-      });
+
+    if (this.mode === "edicion") {
+      this.usersService.update(this.user);
+    } else {
+      this.usersService.create(this.user);
+    }
   }
 
   ngOnDestroy(): void {

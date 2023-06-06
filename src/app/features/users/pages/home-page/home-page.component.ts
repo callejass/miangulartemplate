@@ -8,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class HomePageComponent  {
 
   constructor() { }
-
+  titulo:string="eeeee";
+  boton1:string="miboton";
+  boton2:string="miBoton2";
+  boton3="nombreBoton3";
+  
   
 
 }

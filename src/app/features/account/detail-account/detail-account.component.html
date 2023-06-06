@@ -1,25 +1,26 @@
-<p>detail-account works!</p>
-<mat-card class="mi-card">
+<mat-card>
   <mat-card-header>
-    <div mat-card-avatar class="header-image"></div>
-    <mat-card-title>{{ miUsuario?.nombre }}</mat-card-title>
-    <mat-card-subtitle>{{ miUsuario?.correo }}</mat-card-subtitle>
+
+    <mat-card-title>Nombre: {{ miUsuario?.nombre }}</mat-card-title>
+    <mat-card-subtitle>Correo:{{ miUsuario?.correo }}</mat-card-subtitle>
   </mat-card-header>
 
+  <mat-card-header>
+
+
+
+
+    <mat-card-title>Roles</mat-card-title>
+    <mat-card-subtitle>
+
+      <ul>
+        <li *ngFor="let rol of miUsuario?.roles">
+          {{rol}}
+        </li>
   
-
-  <mat-card-content>
-    
-    <p><strong>Roles:</strong></p>
-    <ul *ngFor="let rol of miUsuario?.roles" >
-      <li >
-      {{rol}}
-      </li>
-
-      
-      <!-- <li *ngFor="let rol of getNombreRoles(miUsuario?.roles)">
-        {{ rol }}
-      </li> -->
-    </ul>
-  </mat-card-content>
+  
+  
+      </ul>
+    </mat-card-subtitle>
+    </mat-card-header>
 </mat-card>

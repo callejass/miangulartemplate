@@ -12,7 +12,7 @@
     
     .tarjeta {
       width: 100%;
-      max-width: 800px;
+      max-width: 100%;
     }
     
     .user-info {
@@ -38,4 +38,10 @@
     .mat-header-cell {
       padding-left: 16px;
       padding-right: 16px;
+    }
+    
+    .full-width {
+      width: 100%;
+      display: table;
+      table-layout: fixed;
     }

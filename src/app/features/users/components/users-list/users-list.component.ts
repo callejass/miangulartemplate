@@ -12,6 +12,8 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ["./users-list.component.css"],
 })
 export class UsersListComponent implements OnInit {
+  titulo:string="Lista de usuarios";
+  
   displayedColumns: string[] = ["id", "nombre", "email", "roles", "acciones"];
   usersList: User[] = [];
   listaRoles: Rol[] = [];

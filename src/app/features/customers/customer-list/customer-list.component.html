@@ -1,9 +1,12 @@
-<div class="container" fxLayout="row" fxLayoutAlign="center none">
-  <div fxFlex="95%">
+<app-cabecera  [titulo]="titulo">
+</app-cabecera>
+
+<div  fxLayout="row" fxLayoutAlign="center none">
+  <div fxFlex="100%">
 
     <mat-card>
       <mat-card-content>
-        <h2>Customers</h2>
+        
 
         <table mat-table [dataSource]="dataSource" matSort>
 

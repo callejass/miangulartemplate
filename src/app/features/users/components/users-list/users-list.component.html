@@ -1,12 +1,13 @@
-<p>users-list works!</p>
 
-<div class="container">
-  <button mat-raised-button color="primary" [routerLink]="['/users/detail', 'nuevo', { mode: 'crear' }]"
-    class="create-user-button">
+<app-cabecera [titulo]="titulo">
+  
+  <button mat-raised-button color="primary" [routerLink]="['/users/detail', 'nuevo', { mode: 'crear' }]">
     Crear nuevo usuario
   </button>
+</app-cabecera>
 
-  <div class="container">
+
+  <div >
     <table mat-table [dataSource]="usersList" class="mat-elevation-z8">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>Id</th>
@@ -48,8 +49,8 @@
         </td>
       </ng-container>
   
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row class="full-width" *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row class="full-width"  *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
   
@@ -58,4 +59,4 @@
 
 
 
-</div>
+

@@ -1,0 +1,28 @@
+
+  .mat-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:rgb(130, 200, 221);
+  }
+  
+  .titulo {
+    flex-grow: 1;
+    text-align: left;
+    color:black
+  }
+  
+  .botones {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+     /* Alinea los botones a la derecha */
+    
+  }
+  button.mat-icon-button {
+    flex-shrink: 0;
+    font-size: 24px; /* Ajusta el tamaño de los íconos según tus necesidades */
+  }
+  .botones .mat-toolbar {
+    margin-right: 10px; /* Ajusta el valor según el margen que desees */
+  }

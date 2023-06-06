@@ -5,6 +5,7 @@ import jwtDecode from "jwt-decode";
 import { miApplicationUser } from "src/app/features/users/models/aplication.users";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import {  Router } from "@angular/router";
+import { StorageService } from "./storage.service";
 //En lugar de AplicationUser, uso miAplicationUser. La tuya la usaré para intentar el token desde el backend
 export interface ApplicationUser {
   id: string;
@@ -40,22 +41,20 @@ export class SessionService {
   private _tokenActual: string | null = null;
   private _currentUser: miApplicationUser | null=null
 
-//Defino una variable que puede tener dos valores 'session' o 'local'
-private storageTipo:'session'|'local'='local';
-/**Aqui establezco un metodo privado, que me va a devolver sessionStorage o localStorage, dependiendo
-* del valor de mi variable storageTipo
-**/
-private getStorage(){
-  return this.storageTipo==='session' ? sessionStorage:localStorage;
-}
+
+
 
   //Aquí llamo a authService para obtener el token
   constructor(private authService: MiAuthService,
-    private router:Router) {
+    private router:Router,
+    private storageService:StorageService
+    ) {
     
     this.authService.authToken.subscribe((token) => {
-      //Con la linea de abajo, en realidad estoy llamando a set token
-      this.token = token;
+      //Con la linea de abajo, en realidad estoy llamando a set token del StorageService
+      //aqui establezco el valor del token de storageService ,
+      // que será el observable al que me he suscrito  del authSrvice
+      this.tokenSesion = token;
     });
     //Creo una instancia del objeto behaviorSubject con valor inicial null
     this._currentUser$ = new BehaviorSubject<miApplicationUser | null>(null);
@@ -74,11 +73,11 @@ private getStorage(){
  * d) Actualiza la propiedad interna '_currentUser' con el nuevo objeto miApplicationUser y emite este nuevo valor a través del subject '_currentUser$' para que cualquier suscriptor sea notificado del cambio de usuario.
  *
  */
-  private set token(token: string | null) {
+  private set tokenSesion(token: string | null) {
     this._tokenActual = token;
     if (token) {
       // a) Almacenarlo en el session storage o en el local storage (lo dejo a tu elección, pero intenta hacerlo de tal forma que se pueda cambiar facil)
-      this.getStorage().setItem("authToken", token);
+      this.storageService.token=token
       //b) Decodificar el token para sacar los claims necesarios para crear un ApplicationUser
       const decodedToken: any = jwtDecode(token);
       const user: miApplicationUser = {
@@ -88,7 +87,7 @@ private getStorage(){
         roles: decodedToken.roles,
       };
       //c) Almacenar este ApplicationUser también en session storage o local storage
-      this.getStorage().setItem("currentUser", JSON.stringify(user));
+      this.storageService.currentUser=user;
       this._currentUser = user;
       //Emito el nuevo usuario a traves del subject
       this._currentUser$.next(user);
@@ -149,10 +148,11 @@ private getStorage(){
  * información de la sesión existente se restaure de inmediato.
  */
   initialize(): Observable<boolean> {
-    const mitoken = this.getStorage().getItem('authToken');
+    const mitoken = this.storageService.token;
+    const usuario=this.storageService.currentUser
     
-    if (mitoken ) {
-      this.token = mitoken;
+    if (mitoken&& usuario ) {
+      this.tokenSesion = mitoken;
       return of(true);
       // this.router.navigate(['/dashboard'])
       
@@ -164,8 +164,8 @@ private getStorage(){
    * Este metodo elimina los tokens y lleva al usuario a la pagina de login
    */
   logOut(){
-    this.getStorage().removeItem('authToken');
-    this.getStorage().removeItem('currentUser');
+    this.storageService.token=null;
+    this.storageService.currentUser=null;
     this.router.navigate(['/login'])
     
   }

@@ -15,6 +15,7 @@ import { MiDialogoComponent } from './mi-dialogo/mi-dialogo.component';
 import { MiSnackbarComponent } from './mi-snackbar/mi-snackbar.component';
 import { VistaPeticionesComponent } from './vista-peticiones/vista-peticiones.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { CabeceraComponent } from './cabecera/cabecera.component';
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
         MiDialogoComponent,
         MiSnackbarComponent,
         VistaPeticionesComponent,
-        SpinnerComponent
+        SpinnerComponent,
+        CabeceraComponent
     ],
     exports: [
         FormsModule,
@@ -46,7 +48,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
         ConfirmDialogComponent,
         ContentPlaceholderAnimationComponent,
         LocalDatePipe,
-        YesNoPipe
+        YesNoPipe,
+        CabeceraComponent
     ]
 })
 export class SharedModule { }

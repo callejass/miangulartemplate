@@ -1,34 +1,43 @@
-<p>detail works!</p>
-<div class="container">
-  <mat-card class="tarjeta">
-    <mat-card-header>
-      <mat-card-title>{{ mode === 'vista' ? 'Detalles del usuario' : (mode==='edicion'? 'Editar usuario' : 'Nuevo
-        Usuario' )}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-        <div fxLayout="row" fxLayoutGap="16px">
-          <mat-form-field appearance="fill" fxFlex>
-            <mat-label>Id de Usuario</mat-label>
-            <input matInput placeholder="Id" formControlName="id"  >
-            <mat-error *ngIf="userForm.get('id')?.touched && userForm.get('id')?.hasError('required')">
-              Campo Obligatorio
-            </mat-error>
-            <mat-error *ngIf="userForm.get('id')?.touched && userForm.get('id')?.hasError('noEsUnico')">
-              El ID ingresado ya existe. Por favor, ingresa otro ID.
-            </mat-error>
+<app-cabecera [titulo]="titulo">
+  <button mat-raised-button color="primary" [routerLink]="['/users']">
+    VOLVER
+  </button>
+  <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid || !editMode">
+    Guardar Cambios
+  </button>
+</app-cabecera>
+<div>
+  <mat-card class="alta">
 
-          </mat-form-field>
-          <mat-form-field appearance="fill" fxFlex>
-            <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre" formControlName="nombre">
-            <mat-error *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.hasError('required')">
-              Campo Obligatorio
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <br>
-        <div fxLayout="row" fxLayoutGap="16px">
+    <mat-card-content class="alta">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+
+
+  <div fxLayout="row" fxLayoutGap="16px">
+    
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Id de Usuario</mat-label>
+      <input matInput placeholder="Id" formControlName="id">
+      <mat-error *ngIf="userForm.get('id')?.touched && userForm.get('id')?.hasError('required')">
+        Campo Obligatorio
+      </mat-error>
+      <mat-error *ngIf="userForm.get('id')?.touched && userForm.get('id')?.hasError('noEsUnico')">
+        El ID ingresado ya existe. Por favor, ingresa otro ID.
+      </mat-error>
+      
+    </mat-form-field>
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre" formControlName="nombre">
+      <mat-error *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.hasError('required')">
+        Campo Obligatorio
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <br>
+  <div fxLayout="row" fxLayoutGap="16px">
           <mat-form-field appearance="fill" fxFlex>
             <mat-label>Email</mat-label>
             <input matInput placeholder="Email" formControlName="email">
@@ -82,15 +91,8 @@
         </div>
 
 
-        <div class="actions">
-          <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid || !editMode"
-            class="action-button">
-            Guardar Cambios
-          </button>
-          <button mat-raised-button color="primary" [routerLink]="['/users']">
-            Piticlín
-          </button>
-        </div>
+
+
       </form>
     </mat-card-content>
   </mat-card>
@@ -98,4 +100,4 @@
 
 
 
-<pre>{{userForm.value| json}}</pre>
+<!-- <pre>{{userForm.value| json}}</pre> -->
