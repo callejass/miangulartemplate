@@ -15,8 +15,9 @@ import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
   styleUrls: ["./detail.component.css"],
 })
 export class DetailComponent implements OnInit, OnDestroy {
-  guardado:boolean=false;
-  titulo:string="Nuevo usuario"
+  haCambiado: boolean = false;
+  guardado: boolean = false;
+  titulo: string = "Nuevo usuario";
   listaRoles: Rol[] = [];
   listaProvincias: Provincia[] = [];
   mode: string | null | undefined;
@@ -38,12 +39,12 @@ export class DetailComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private fb: FormBuilder,
     private gui: GuiUtilsService,
-    private router:Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.userForm = this.createUserForm();
-this.guardado=false;
+
     this.tablasMaestras
       .getData<Provincia>("provincias")
       .subscribe((provincias) => {
@@ -59,13 +60,16 @@ this.guardado=false;
       // Deshabilitar el campo 'id' si el modo es 'edicion'
       if (this.mode === "edicion") {
         this.userForm.get("id")?.disable();
-        this.titulo="Editar usuario"
+        this.titulo = "Editar usuario";
       }
       if (this.mode === "vista") {
         this.userForm.disable();
-        this.titulo="Detalle de usuario"
+        this.titulo = "Detalle de usuario";
       }
     }
+    this.userForm.valueChanges.subscribe(() => {
+      this.haCambiado = true;
+    });
   }
   /**
    * Crea y devuelve un FormGroup para el formulario de usuario.
@@ -74,7 +78,7 @@ this.guardado=false;
    * @returns {FormGroup} FormGroup para el formulario de usuario.
    */
   createUserForm(): FormGroup {
-    return this.fb.group({
+    let formulario = this.fb.group({
       id: [
         "",
         {
@@ -90,6 +94,8 @@ this.guardado=false;
       provincia: ["", Validators.required],
       roles: [[], Validators.required],
     });
+    // this.haCambiado = true;
+    return formulario;
   }
 
   /**
@@ -107,7 +113,6 @@ this.guardado=false;
       const mode = paramMap.get("mode");
       this.mode = mode;
       this.editMode = mode === "edicion" || mode === "crear";
-      
     });
   }
 
@@ -146,6 +151,7 @@ this.guardado=false;
       provincia: user.provincia,
       roles: user.roles,
     });
+    this.haCambiado = false;
     console.log(this.userForm.value);
   }
 
@@ -169,34 +175,35 @@ this.guardado=false;
 
     this.user.provincia = updatedUser.provincia;
     this.user.roles = updatedUser.roles;
-    this.guardado=true;
   }
 
-volver(){
-  if (this.editMode && this.guardado===false){
-    
-    this.gui.confirm$('Va a abandonar la página sin guardar los cambios, está seguro?').
-    subscribe(respuesta=>{
-      if (respuesta===true){
-        this.router.navigate(['/users'])
-      }
-    })
-  } else {
-      this.router.navigate(['/users'])
-
+  volver() {
+    console.log("haCambiado", this.haCambiado);
+    if (this.editMode && this.haCambiado && this.guardado === false) {
+      this.gui
+        .confirm$(
+          "Va a abandonar la página sin guardar los cambios, está seguro?"
+        )
+        .subscribe((respuesta) => {
+          if (respuesta === true) {
+            this.router.navigate(["/users"]);
+          }
+        });
+    } else {
+      this.router.navigate(["/users"]);
     }
-    
   }
 
   onSubmit() {
     this.establecerValores();
-   
 
     if (this.mode === "edicion") {
       this.usersService.update(this.user);
     } else {
       this.usersService.create(this.user);
     }
+    this.guardado = true;
+    this.haCambiado = false;
   }
 
   ngOnDestroy(): void {
