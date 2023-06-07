@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Provincia, Rol, User } from "../../models/user.model";
 import { UsersService } from "../../services/users.service";
 import { Subscription, filter, switchMap, tap } from "rxjs";
@@ -15,7 +15,7 @@ import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
   styleUrls: ["./detail.component.css"],
 })
 export class DetailComponent implements OnInit, OnDestroy {
-  
+  guardado:boolean=false;
   titulo:string="Nuevo usuario"
   listaRoles: Rol[] = [];
   listaProvincias: Provincia[] = [];
@@ -37,12 +37,13 @@ export class DetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private usersService: UsersService,
     private fb: FormBuilder,
-    private gui: GuiUtilsService
+    private gui: GuiUtilsService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
     this.userForm = this.createUserForm();
-
+this.guardado=false;
     this.tablasMaestras
       .getData<Provincia>("provincias")
       .subscribe((provincias) => {
@@ -106,6 +107,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       const mode = paramMap.get("mode");
       this.mode = mode;
       this.editMode = mode === "edicion" || mode === "crear";
+      
     });
   }
 
@@ -167,10 +169,28 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     this.user.provincia = updatedUser.provincia;
     this.user.roles = updatedUser.roles;
+    this.guardado=true;
+  }
+
+volver(){
+  if (this.editMode && this.guardado===false){
+    
+    this.gui.confirm$('Va a abandonar la página sin guardar los cambios, está seguro?').
+    subscribe(respuesta=>{
+      if (respuesta===true){
+        this.router.navigate(['/users'])
+      }
+    })
+  } else {
+      this.router.navigate(['/users'])
+
+    }
+    
   }
 
   onSubmit() {
     this.establecerValores();
+   
 
     if (this.mode === "edicion") {
       this.usersService.update(this.user);

@@ -51,9 +51,7 @@ export class SessionService {
     ) {
     
     this.authService.authToken.subscribe((token) => {
-      //Con la linea de abajo, en realidad estoy llamando a set token del StorageService
-      //aqui establezco el valor del token de storageService ,
-      // que será el observable al que me he suscrito  del authSrvice
+      
       this.tokenSesion = token;
     });
     //Creo una instancia del objeto behaviorSubject con valor inicial null

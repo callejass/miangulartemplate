@@ -10,16 +10,6 @@ export class CabeceraComponent  {
   constructor() { }
   @Input()
   titulo!: string;
-  @Input()
-  boton1!: string;
-  @Input()
-  boton2!: string;
-  @Input()
-  boton3!: string;
-  @Output() botonClicked = new EventEmitter<number>();
-
-  onClickBoton(boton: number) {
-    this.botonClicked.emit(boton);
-  }
+  
   
 }

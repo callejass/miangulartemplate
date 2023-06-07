@@ -1,8 +1,8 @@
 <app-cabecera [titulo]="titulo">
-  <button mat-raised-button color="primary" [routerLink]="['/users']">
+  <button mat-raised-button color="primary" (click)="volver()">
     VOLVER
   </button>
-  <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid || !editMode">
+  <button mat-raised-button color="primary" (click)="onSubmit()" type="submit" [disabled]="userForm.invalid || !editMode">
     Guardar Cambios
   </button>
 </app-cabecera>
@@ -10,7 +10,7 @@
   <mat-card class="alta">
 
     <mat-card-content class="alta">
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="userForm" >
 
 
 
@@ -90,7 +90,7 @@
 
         </div>
 
-
+        
 
 
       </form>
