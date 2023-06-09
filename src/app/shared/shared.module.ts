@@ -16,6 +16,7 @@ import { MiSnackbarComponent } from './mi-snackbar/mi-snackbar.component';
 import { VistaPeticionesComponent } from './vista-peticiones/vista-peticiones.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
+import { OnlyDevelopmentDirective } from './directivas/only-development.directive';
 
 @NgModule({
     imports: [
@@ -37,7 +38,8 @@ import { CabeceraComponent } from './cabecera/cabecera.component';
         MiSnackbarComponent,
         VistaPeticionesComponent,
         SpinnerComponent,
-        CabeceraComponent
+        CabeceraComponent,
+        OnlyDevelopmentDirective,
     ],
     exports: [
         FormsModule,
@@ -49,7 +51,8 @@ import { CabeceraComponent } from './cabecera/cabecera.component';
         ContentPlaceholderAnimationComponent,
         LocalDatePipe,
         YesNoPipe,
-        CabeceraComponent
+        CabeceraComponent,
+        OnlyDevelopmentDirective,
     ]
 })
 export class SharedModule { }

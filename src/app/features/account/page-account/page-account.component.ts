@@ -9,6 +9,6 @@ export class PageAccountComponent  {
 
   constructor() { }
 
-  titulo:string='Tu perfil(Esta cabecera sí está en la account-page)'
+  titulo:string='Tu perfil'
 
 }

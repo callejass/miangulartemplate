@@ -8,6 +8,7 @@ import { formatISO, parseISO } from "date-fns";
 import { TablasMaestrasService } from "src/app/core/services/tablas-maestras.service";
 import { idUnicoValidador } from "src/app/shared/validators/idUnicoValidador";
 import { GuiUtilsService } from "src/app/core/services/gui-utils.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-detail",
@@ -40,7 +41,9 @@ export class DetailComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private gui: GuiUtilsService,
     private router: Router
-  ) {}
+  ) {
+    console.log('modoproduccion:', environment.production)
+  }
 
   ngOnInit(): void {
     this.userForm = this.createUserForm();

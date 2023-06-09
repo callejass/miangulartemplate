@@ -1,2 +1,10 @@
-<app-cabecera [titulo]="titulo"></app-cabecera>
+<app-cabecera [titulo]="titulo">
+    
+  
+        <p *appOnlyDevelopment >
+            Este ng content esta en la pagina, además solo se vera si estoy en modo desarrollo
+        </p>
+      
+     
+</app-cabecera>
 <app-detail-account></app-detail-account>

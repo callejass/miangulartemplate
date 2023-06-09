@@ -14,6 +14,7 @@ import { CopiaInterceptor } from './interceptors/copia.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { OnlyDevelopmentDirective } from '../shared/directivas/only-development.directive';
 
 @NgModule({
   imports: [
@@ -21,6 +22,8 @@ import { AdminGuard } from './guards/admin.guard';
     HttpClientModule
   ],
   declarations: [
+  
+    
   ],
   providers: [
     AuthGuard,
