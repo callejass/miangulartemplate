@@ -1,3 +1,27 @@
+.main-content {
+  display: flex;
+  flex-direction: row;
+  margin: 15px;
+ 
+}
+
+.side-card {
+  /* Aquí puedes poner el estilo para que se vea como una tarjeta, por ejemplo: */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 20%; /* Puedes ajustar este valor según el tamaño que desees para la tarjeta */
+  margin-right: 1rem; /* Espacio entre la tarjeta y el contenido principal */
+}
+
+.content-wrapper {
+  width: 100%; /* Puedes ajustar este valor según el tamaño que desees para el contenido principal */
+}
+
+
+
+
 .navbar-spacer {
   flex: 1 1 auto;
 }

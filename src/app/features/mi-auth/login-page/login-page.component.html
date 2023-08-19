@@ -1,0 +1,30 @@
+<div class="container">
+  <form [formGroup]="formularioLogin" (ngSubmit)="enviarFormulario()">
+    <h3>FORMULARIO DE LOGIN</h3>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre de usuario</mat-label>
+      <input matInput type="text" id="nombreUsuario" formControlName="nombreUsuario">
+      <mat-error *ngIf="formularioLogin.get('nombreUsuario')?.touched && formularioLogin.get('nombreUsuario')?.invalid">
+        Por favor, introduce un nombre de usuario válido.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" id="password" formControlName="password">
+      <mat-error *ngIf="formularioLogin.get('password')?.touched && formularioLogin.get('password')?.invalid">
+        Por favor, introduce una contraseña válida.
+      </mat-error>
+      
+      
+      
+    </mat-form-field>
+    <div *ngIf="errorMensaje" class="error">
+      {{errorMensaje}}
+    </div>
+
+    <button mat-raised-button color="primary" type="submit">Enviar</button>
+
+  </form>
+</div>

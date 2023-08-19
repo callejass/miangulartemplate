@@ -1,11 +1,11 @@
 
 
 @use "@angular/material" as mat;
-// @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
-// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-@use './estilos/temas/tema1/theme1.scss';
-@use './estilos/temas/tema2/theme2.scss';
+// @use './estilos/temas/tema1/theme1.scss';
+// @use './estilos/temas/tema2/theme2.scss';
+@import "~@angular/material/prebuilt-themes/purple-green.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 // @include mat.core();
 
@@ -22,15 +22,16 @@ body {
   font-size: 14px;
 }
 
-.full-width {
-  width: 100%;
-}
+
 
 .container {
-  margin-top: 10px;
-  margin-bottom: 10px;
+ //modificado por mi
+  height: 100%;
 }
-
+.mat-card {
+  
+  height: 100%;
+}
 .spinner {
   left: 49%;
   position: fixed !important;
@@ -161,4 +162,34 @@ p .mat-icon {
   to {
     opacity: 1;
   }
+}
+
+//  Añadidos por mi
+// .mat-dialog-container {
+//   background-color:#e91e63; ;
+//   border-radius: 8px;
+//   padding: 24px;
+// }
+// .mi-dialogo-personalizado .mat-dialog-container {
+//   background-color: #c72222; 
+// }
+  /* Cambia este valor al color que prefieras */
+
+  .my-custom-snackbar {
+    background-color: #852e88;
+    color: #fff;
+  }
+
+  /* Personaliza la lista de selección */
+
+  // .mat-mdc-select-panel{
+  //   background-color: rgba(90, 107, 96, 1);
+  // }
+  /* Estilos para las páginas interiores */
+.app-content-inner {
+  margin: 20px; /* Agrega márgenes a los lados y arriba/abajo */
+  //Este va en el lyout
+}
+.full-width {
+  width: 100%;
 }

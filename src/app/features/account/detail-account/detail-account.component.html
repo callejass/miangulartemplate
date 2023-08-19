@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-header>
+
+    <mat-card-title>Nombre: {{ miUsuario?.nombre }}</mat-card-title>
+    <mat-card-subtitle>Correo:{{ miUsuario?.correo }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-header>
+
+
+
+
+    <mat-card-title>Roles</mat-card-title>
+    <mat-card-subtitle>
+
+      <ul>
+        <li *ngFor="let rol of miUsuario?.roles">
+          {{rol}}
+        </li>
+  
+  
+  
+      </ul>
+    </mat-card-subtitle>
+    </mat-card-header>
+</mat-card>

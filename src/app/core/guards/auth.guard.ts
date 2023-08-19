@@ -1,32 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
-import * as moment from 'moment';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { SessionService } from '../services/session.service';
 
-import { AuthenticationService } from '../services/auth.service';
-import { NotificationService } from '../services/notification.service';
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
+  constructor(private router: Router, private sessionService:SessionService) { }
+/**
+ * 
+ * @param next 
+ * @param state 
+ * @returns 
+ */
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    constructor(private router: Router,
-        private notificationService: NotificationService,
-        private authService: AuthenticationService) { }
-
-    canActivate() {
-        const user = this.authService.getCurrentUser();
-
-        if (user && user.expiration) {
-
-            if (moment() < moment(user.expiration)) {
-                return true;
-            } else {
-                this.notificationService.openSnackBar('Your session has expired');
-                this.router.navigate(['auth/login']);
-                return false;
-            }
-        }
-
-        this.router.navigate(['auth/login']);
-        return false;
+    const token = this.sessionService.tokenActual
+  
+    if (this.sessionService.isLogged===true) {
+      // Si existe un token, permitir la activación de la ruta
+      console.log(token);
+      console.log(this.sessionService.isLogged)
+      return true;
+    } else {
+      // Si no existe un token, no permitir la activación de la ruta
+      // Y redirigir al usuario a la página de inicio de sesión
+      console.log(this.sessionService.isLogged)
+      this.router.navigate(['/login']);
+      return false;
     }
+  }
 }

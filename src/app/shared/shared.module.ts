@@ -11,14 +11,20 @@ import { ContentPlaceholderAnimationComponent } from './content-placeholder-anim
 import { LocalDatePipe } from './pipes/local-date.pipe';
 import { YesNoPipe } from './pipes/yes-no.pipe';
 import { LayoutComponent } from './layout/layout.component';
+import { MiDialogoComponent } from './mi-dialogo/mi-dialogo.component';
+import { MiSnackbarComponent } from './mi-snackbar/mi-snackbar.component';
+import { VistaPeticionesComponent } from './vista-peticiones/vista-peticiones.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { CabeceraComponent } from './cabecera/cabecera.component';
+import { OnlyDevelopmentDirective } from './directivas/only-development.directive';
 
 @NgModule({
     imports: [
         CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
         RouterModule,
         CustomMaterialModule,
-        FormsModule,
-        ReactiveFormsModule,
         FlexLayoutModule,
     ],
     declarations: [
@@ -27,7 +33,13 @@ import { LayoutComponent } from './layout/layout.component';
         LimitToPipe,
         LocalDatePipe,
         YesNoPipe,
-        LayoutComponent
+        LayoutComponent,
+        MiDialogoComponent,
+        MiSnackbarComponent,
+        VistaPeticionesComponent,
+        SpinnerComponent,
+        CabeceraComponent,
+        OnlyDevelopmentDirective,
     ],
     exports: [
         FormsModule,
@@ -38,7 +50,9 @@ import { LayoutComponent } from './layout/layout.component';
         ConfirmDialogComponent,
         ContentPlaceholderAnimationComponent,
         LocalDatePipe,
-        YesNoPipe
+        YesNoPipe,
+        CabeceraComponent,
+        OnlyDevelopmentDirective,
     ]
 })
 export class SharedModule { }

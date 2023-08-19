@@ -1,0 +1,36 @@
+.mi-boton-personalizado {
+    color: rgb(248, 245, 245); /* Cambia el color del texto aquí */
+    background-color: rgb(240, 67, 105); /* Cambia el color de fondo aquí */
+  }
+  /* my-dialog.component.css */
+
+/* Personaliza el contenedor del diálogo */
+.mat-dialog-container {
+  background-color: #bddb76;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* Personaliza el título del diálogo */
+.dialog-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+/* Personaliza el contenido del diálogo */
+.dialog-content {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Personaliza los botones del diálogo */
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.dialog-buttons button {
+  margin-left: 8px;
+}

@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { Title } from '@angular/platform-browser';
 import { NGXLogger } from 'ngx-logger';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { User } from '../../users/models/user.model';
+import { MiAuthService } from 'src/app/core/services/mi-auth.service';
+import { SessionService } from 'src/app/core/services/session.service';
+import { miApplicationUser } from '../../users/models/aplication.users';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -10,16 +13,24 @@ import { AuthenticationService } from 'src/app/core/services/auth.service';
   styleUrls: ['./dashboard-home.component.css']
 })
 export class DashboardHomeComponent implements OnInit {
-  currentUser: any;
+  usuarioActual!: miApplicationUser| null;
 
   constructor(private notificationService: NotificationService,
-    private authService: AuthenticationService,
+    
     private titleService: Title,
-    private logger: NGXLogger) {
+    private logger: NGXLogger,
+    private sessionService:SessionService) {
   }
 
   ngOnInit() {
-    this.currentUser = this.authService.getCurrentUser();
+    // this.usuarioActual=this.sessionService.currentUser
+    this.sessionService.currentUser$.subscribe(
+      (usuario)=>{
+        this.usuarioActual=usuario
+      }
+    )
+      
+    
     this.titleService.setTitle('angular-material-template - Dashboard');
     this.logger.log('Dashboard loaded');
 

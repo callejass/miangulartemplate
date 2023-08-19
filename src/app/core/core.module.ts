@@ -4,12 +4,17 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { NGXLogger } from 'ngx-logger';
 
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
-import { AuthGuard } from './guards/auth.guard';
+
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 import { GlobalErrorHandler } from './services/globar-error.handler';
+
+import { CopiaInterceptor } from './interceptors/copia.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { OnlyDevelopmentDirective } from '../shared/directivas/only-development.directive';
 
 @NgModule({
   imports: [
@@ -17,6 +22,8 @@ import { AdminGuard } from './guards/admin.guard';
     HttpClientModule
   ],
   declarations: [
+  
+    
   ],
   providers: [
     AuthGuard,
@@ -27,10 +34,15 @@ import { AdminGuard } from './guards/admin.guard';
       useClass: SpinnerInterceptor,
       multi: true
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthInterceptor,
+    //   multi: true
+    // },
+    {provide:HTTP_INTERCEPTORS,
+      useClass:CopiaInterceptor,
+      multi:true
+
     },
     {
       provide: ErrorHandler,

@@ -9,6 +9,10 @@ import { CustomMaterialModule } from './custom-material/custom-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from '../environments/environment';
+import { UsersService } from './features/users/services/users.service';
+import { UsersEndpointService } from './features/users/services/users-endpoint.service';
+import { UsersMockService } from './features/users/services/users-mock.service';
+import { UsersApiService } from './features/users/services/users-api.service';
 
 @NgModule({
   declarations: [
@@ -17,6 +21,7 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    
     CoreModule,
     SharedModule,
     CustomMaterialModule.forRoot(),
@@ -26,6 +31,11 @@ import { environment } from '../environments/environment';
       level: environment.logLevel,
       serverLogLevel: environment.serverLogLevel
     })
+  ],
+  providers:[UsersService,{provide:UsersEndpointService, useClass:UsersMockService},
+    
+    
+  
   ],
   bootstrap: [AppComponent]
 })

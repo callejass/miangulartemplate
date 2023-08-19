@@ -1,0 +1,106 @@
+<app-cabecera [titulo]="titulo">
+  <button mat-raised-button color="primary" (click)="volver()">
+    VOLVER
+  </button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" type="submit" [disabled]="userForm.invalid || !editMode">
+    Guardar Cambios
+  </button>
+</app-cabecera>
+<div>
+  <mat-card class="alta">
+
+    <mat-card-content class="alta">
+      <form [formGroup]="userForm" >
+
+
+
+  <div fxLayout="row" fxLayoutGap="16px">
+    
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Id de Usuario</mat-label>
+      <input matInput placeholder="Id" formControlName="id">
+      <mat-error *ngIf="userForm.get('id')?.touched && userForm.get('id')?.hasError('required')">
+        Campo Obligatorio
+      </mat-error>
+      <mat-error *ngIf="userForm.get('id')?.touched && userForm.get('id')?.hasError('noEsUnico')">
+        El ID ingresado ya existe. Por favor, ingresa otro ID.
+      </mat-error>
+      
+    </mat-form-field>
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre" formControlName="nombre">
+      <mat-error *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.hasError('required')">
+        Campo Obligatorio
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <br>
+  <div fxLayout="row" fxLayoutGap="16px">
+          <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="userForm.get('email')?.touched && userForm.get('email')?.hasError('required')">
+              Campo Obligatorio
+            </mat-error>
+            <mat-error *ngIf="userForm.get('email')?.touched && userForm.get('email')?.hasError('email')">
+              Formato de correo no válido
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" placeholder="Fecha" formControlName="fechaNacimiento">
+            <mat-hint>dd/MM/yyyy</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error
+              *ngIf="userForm.get('fechaNacimiento')?.touched && userForm.get('fechaNacimiento')?.hasError('required')">
+              Campo Obligatorio/Fecha no válida
+            </mat-error>
+
+          </mat-form-field>
+        </div>
+        <br>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Provincia</mat-label>
+            <mat-select formControlName="provincia">
+              <mat-option *ngFor="let provincia of listaProvincias" [value]="provincia.codigo">
+                {{provincia.codigo}}---{{provincia.nombre}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm.get('provincia')?.touched && userForm.get('provincia')?.hasError('required')">
+              Campo Obligatorio
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Roles</mat-label>
+            <mat-select formControlName="roles" multiple>
+              <mat-option *ngFor="let role of listaRoles" [value]="role.codigo">
+                {{ role.nombre }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm.get('roles')?.touched && userForm.get('roles')?.hasError('required')">
+              Campo obligatorio
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+
+        
+
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<div *appOnlyDevelopment>
+  
+  <pre>{{userForm.value| json}}</pre>
+
+</div>

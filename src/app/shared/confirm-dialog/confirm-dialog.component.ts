@@ -9,11 +9,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ConfirmDialogComponent {
   title: string;
   message: string;
+  subtitulo:string;
 
   constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogModel) {
     this.title = data.title;
     this.message = data.message;
+    this.subtitulo=data.subtitulo;
   }
 
   onConfirm(): void {
@@ -32,6 +34,6 @@ export class ConfirmDialogComponent {
  */
 export class ConfirmDialogModel {
 
-  constructor(public title: string, public message: string) {
+  constructor(public title: string, public message: string, public subtitulo:string) {
   }
 }

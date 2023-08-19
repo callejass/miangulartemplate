@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/app/shared/layout/layout.component';
-
-import { AccountPageComponent } from './account-page/account-page.component';
+import { PageAccountComponent } from './page-account/page-account.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'profile', component: AccountPageComponent },
+      { path: '', component: PageAccountComponent },
+      
     ]
   }
 ];
